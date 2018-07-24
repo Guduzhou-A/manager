@@ -1,0 +1,11 @@
+package com.baicells.manager.service;
+
+import com.baicells.manager.model.dto.ProductPageQuery4WebDto;
+import com.baicells.manager.model.entity.ProductPage;
+import com.github.pagehelper.PageInfo;
+
+import java.util.List;
+
+public interface ProductPageService {
+    PageInfo<ProductPage> listByQuery(ProductPageQuery4WebDto dto);
+}
