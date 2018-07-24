@@ -5,7 +5,7 @@
         border-bottom: 0px;
     }
 
-    .groupDetail table  tr td {
+    .groupDetail table tr td {
         border-right: 1px solid #A3C6C8;
         border-left: 1px solid #A3C6C8;
 
@@ -18,9 +18,41 @@
     .groupDetail {
         border-bottom: 2px solid #dddddd;
     }
-    #model input[type=text]{
+
+    #model input[type=text] {
         width: 150px;
         display: inline;
+    }
+    .modal-dialog {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .modal-content {
+        /*overflow-y: scroll; */
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .modal-body {
+        overflow-y: scroll;
+        position: absolute;
+        top: 55px;
+        bottom: 65px;
+        width: 100%;
+    }
+
+    .modal-header .close {margin-right: 15px;}
+
+    .modal-footer {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
     }
 </style>
 
@@ -86,17 +118,17 @@
     </div>
 </div>
 <#--新建及编辑窗口-->
-<div class="modal fade" id="model"   tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" style="width:80%">
-        <div class="modal-content" >
+<div class="modal fade" id="model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal-dialog" role="document" style="width:90%;overflow-y:auto;" >
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">编辑窗口</h4>
             </div>
-            <div class="modal-body" >
+            <div class="modal-body">
                 <form class="form-horizontal" method="post" action="" id="content_form"
-                      data-parsley-validate enctype="multipart/form-data" >
+                      data-parsley-validate enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="title" class="col-sm-2 control-label">标题<font class="red">*</font>：</label>
                         <div class="col-sm-10">
@@ -129,7 +161,7 @@
 
                     <div class="form-group">
                         <label for="title" class="col-sm-2 control-label">产品描述详情<font class="red">*</font>：</label>
-                        <div class="col-sm-10" class="newGroup">
+                        <div class="col-sm-10 newGroup">
                         <#if asd??>
                             <div class="groupDetail">
                                 <input type="text" class="form-control" name="title" placeholder="组标题" value="">
@@ -149,16 +181,23 @@
                         </div>
                     </div>
 
-
-                </form>
-
-
+                    <div class="form-group">
+                        <label for="title" class="col-sm-2 control-label">内容详情<font class="red">*</font>：</label>
+                        <div id='content-editor' class="col-sm-10">
+                        </div>
+                    </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="submit_btn">确定</button>
-            </div>
+
+
+            </form>
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="submit_btn">确定</button>
         </div>
     </div>
+</div>
 </div>
 
 <div class="modal fade" id="upload-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -213,3 +252,8 @@
 <script src="${ (project.staticDomain)! }/libs/zebra_dialog-1.4.0/js/zebra_dialog.min.js"></script>
 <script type="text/javascript" src="${(project.staticDomain!)}/libs/My97DatePicker/WdatePicker.js"></script>
 <script src="${ (project.staticDomain)! }/js/product/list.js"></script>
+<script>
+    var E = window.wangEditor;
+    var editor = new E('#content-editor');
+    editor.create();
+</script>

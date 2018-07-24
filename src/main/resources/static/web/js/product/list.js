@@ -33,6 +33,8 @@ $(function () {
         $(".img-file-input").change(changeFileInput);
         $("#toUpdateImg").click(toUpdateImg);
 
+        $(".img-rounded").bind("error", imgError);
+
 
     }
 
@@ -123,8 +125,8 @@ $(function () {
 
     function createNewGroup() {
         $(this).before(buildGroup());
-        $("span[name='delete-groupDetail']").click(deleteGroupDetail);
-        $("button[name='create_new_group_detail']").click(createNewGroupDetail);
+        $(this).prev().find("span[name='delete-groupDetail']").click(deleteGroupDetail);
+        $(this).prev().find("table tbody tr td:last button[name='create_new_group_detail']").click(createNewGroupDetail);
 
 
     }
@@ -138,7 +140,7 @@ $(function () {
         var desc_html = "<button type='button' name='create_product_detail_desc'  class='btn btn-default'>添加描述详情</button>";
         if (beforTds.length > 1) {
             desc_html = "";
-            $("button[name='create_product_detail_desc']").remove();
+            $(beforTds).find("button[name='create_product_detail_desc']").hide();
         }
         ;
 
@@ -153,6 +155,7 @@ $(function () {
             "</div>" +
             "<div class='col-sm-7' style='vertical-align: middle !important;'>" +
             desc_html +
+            "<span class='label' style='cursor:pointer' name='delete-groupDetail-desc'>删除</span>" +
             "</div>" +
             "</td>";
 
@@ -163,19 +166,36 @@ $(function () {
             $(this).parent().hide();
         }
 
-        $("button[name='create_product_detail_desc']").click(createProductDetailDesc);
+        $(afterTds).find("button[name='create_product_detail_desc']").click(createProductDetailDesc);
+        $(afterTds).find("span[name='delete-groupDetail-desc']").click(deleteGroupDetailDesc);
 
     }
 
     function createProductDetailDesc() {
-        var _html = "<div name='editor'>" +
+        var tag = UUID();
+        var _html = "<div name='editor-"+tag+"'>" +
             "<p>请编辑详情信息</p>" +
             "</div>";
         $(this).before(_html);
+        // $(this).
         var E = window.wangEditor;
-        var editor = new E('div[name="editor"]');
-        editor.create()
+        var editor = new E('div[name="editor-'+tag+'"]');
+        editor.create();
+        $(this).hide();
+        $(this).parent().parent().parent().find("td button[name='create_new_group_detail']").parent().hide();
 
+    }
+
+    function deleteGroupDetailDesc() {
+
+        var afterTds = $(this).parent().parent().parent().find("td");
+        if (afterTds.length < 6) {
+            $(afterTds).last().show();
+        }
+        if (afterTds.length == 3) {
+            $(afterTds).first().find("button[name='create_product_detail_desc']").show();
+        }
+        $(this).parent().parent().remove();
     }
 
     function buildGroup() {
