@@ -21,19 +21,18 @@ $(function () {
         $("#search").click(search);
         $("#chk_all").click(checkAllClick);
         $("#add_btn").click(toAddProductPage);
-        $("#to_upload").click(toUploadPic);
-        $('#uploadSubmit').click(uploadPic);
+        $("button[name='to_upload']").click(toUploadPic);
+        $("#file").change(changeFileInput);
 
         $("button[name='create_new_group']").click(createNewGroup);
         $("span[name='delete-groupDetail']").click(deleteGroupDetail);
         $("button[name='create_new_group_detail']").click(createNewGroupDetail);
 
-        $(".img-remove").click(removeImg);
-        $(".img-add-icon").click(addImg);
-        $(".img-file-input").change(changeFileInput);
-        $("#toUpdateImg").click(toUpdateImg);
-
-        $(".img-rounded").bind("error", imgError);
+        $("img[class='img-rounded']").change(function () {
+            if ($(this).attr("src").trim() == "") {
+                $(this).attr("src", base + "/static/web/images/noimage.png");
+            }
+        });
 
 
     }
@@ -79,9 +78,9 @@ $(function () {
                 "oLanguage": language,
                 "rowCallback": function (row, data, index) {
                     $('td:eq(0)', row).html("<input name='chk_list' type='checkbox' id='" + data.id + "'>");
-                    $('td:eq(2)', row).html("<img  style='width: 100px;height: 100px' src='" + data.portalPicUrl + "'   class='img-rounded '/>");
-                    $('td:eq(3)', row).html("<img style='width: 100px;height: 100px' src='" + data.navPicUrl + "'   class='img-rounded '/>");
-                    $('td:eq(4)', row).html("<img style='width: 100px;height: 100px' src='" + data.bgPicUrl + "'    class='img-rounded '/>");
+                    $('td:eq(2)', row).html("<a name='image-a' href='" + data.portalPicUrl + "' target='_blank'><img  style='width: 100px;height: 100px' src='" + data.portalPicUrl + "'   class='img-rounded '/></a>");
+                    $('td:eq(3)', row).html("<a name='image-a' href='" + data.navPicUrl + "' target='_blank'><img style='width: 100px;height: 100px' src='" + data.navPicUrl + "'   class='img-rounded '/></a>");
+                    $('td:eq(4)', row).html("<a name='image-a' href='" + data.bgPicUrl + "' target='_blank'><img style='width: 100px;height: 100px' src='" + data.bgPicUrl + "'    class='img-rounded '/></a>");
 
                     var enableHtml = "";
                     if (data.enable) {
@@ -113,7 +112,6 @@ $(function () {
 
                 },
                 "drawCallback": function (settings) {
-                    // initEzView();
                 }
 
             });
@@ -151,6 +149,12 @@ $(function () {
             "</div>" +
             "<div>" +
             "<input type='text' class='form-control' name='' style='width: 100%;margin-top:1%;margin-bottom: 1%' placeholder='规格' value=''>" +
+            "<a href='javascript:void(0);' name='upload-group-pic'  data-toggle='tooltip' data-placement='left' title='上传图片'>" +
+            "<i class='glyphicon glyphicon-upload'></i>" +
+            "</a>" +
+            "<a href='javascript:void(0);' style='margin-left: 30px' name='remove-group-pic'  data-toggle='tooltip' data-placement='left' title='删除'>" +
+            "<i class='glyphicon glyphicon-remove'></i>" +
+            "</a>" +
             "</div>" +
             "</div>" +
             "<div class='col-sm-7' style='vertical-align: middle !important;'>" +
@@ -160,7 +164,7 @@ $(function () {
             "</td>";
 
         $(this).parent().before(_html);
-        $(".img-rounded").bind("error", imgError);
+
         var afterTds = $(this).parent().parent().find("td");
         if (afterTds.length > 4) {
             $(this).parent().hide();
@@ -169,17 +173,19 @@ $(function () {
         $(afterTds).find("button[name='create_product_detail_desc']").click(createProductDetailDesc);
         $(afterTds).find("span[name='delete-groupDetail-desc']").click(deleteGroupDetailDesc);
 
+        $(".img-rounded").bind("error", imgError);
+        $('[data-toggle="tooltip"]').tooltip();
     }
 
     function createProductDetailDesc() {
         var tag = UUID();
-        var _html = "<div name='editor-"+tag+"'>" +
+        var _html = "<div name='editor-" + tag + "'>" +
             "<p>请编辑详情信息</p>" +
             "</div>";
         $(this).before(_html);
         // $(this).
         var E = window.wangEditor;
-        var editor = new E('div[name="editor-'+tag+'"]');
+        var editor = new E('div[name="editor-' + tag + '"]');
         editor.create();
         $(this).hide();
         $(this).parent().parent().parent().find("td button[name='create_new_group_detail']").parent().hide();
@@ -216,82 +222,46 @@ $(function () {
     }
 
     function toUploadPic() {
-        clearImg();
-        $("#upload-model").modal("show");
-    }
+        var id = $(this).prev().attr("id");
+        console.log(id);
+        $("#file").attr("target-src-name", id);
+        $("#file").click();
 
-    function clearImg() {
-        $("img[name='posterImgSrc']").attr("src", "");
-        $(".img-file-input").val("");
-    }
-
-    function addImg() {
-        var name = $(this).attr("name");
-        $("input[name='" + name + "']").click();
-    }
-
-    function removeImg() {
-        $(this).attr("src", "");
-        var name = $(this).attr("name");
-        $(this).parent().addClass("img-view");
-        $(this).parent().next().removeClass("img-view");
-        $("input[imgName='" + name + "']").val("");
     }
 
     function changeFileInput() {
+        var imgId = $("#file").attr("target-src-name");
         var file = this.files[0];
-        var objUrl = getObjectURL(this.files[0]);
-        var imgDivName = $(this).attr("imgName");
-        var imgObj = $("img[name='" + imgDivName + "']");
-        if (objUrl) {
-            if (!file.type.match('image.*')) {
-                alert("请上传图片");
-                imgObj.attr("src", "");
-                $(this).val("");
-                return;
-            }
-            if (file.size > (1024 * 2 * 1000)) {
-                alert("图片文件不能超过2M");
-                imgObj.attr("src", "");
-                $(this).val("");
-                return;
-            }
-            var img = document.createElement("img");
-            img.src = objUrl;
-            imgObj.attr("src", objUrl); // 将图片路径存入src中，显示出图片
-            imgObj.parent().removeClass("img-view");
-            imgObj.parent().next().addClass("img-view");
-
+        if (!file.type.match('image.*')) {
+            alert("请上传图片");
+            $(this).val("");
+            return;
         }
-    }
-
-    function toUpdateImg() {
-        $("#updateImgForm").submit();
-    }
-
-
-    function uploadPic() {
         var data = new FormData($('#uploadForm')[0]);
         $.ajax({
-            url: 'xxx/xxx',
+            url: base + '/upload',
             type: 'POST',
             data: data,
             async: false,
             cache: false,
             contentType: false,
             processData: false,
-            success: function (data) {
-                if (data.status) {
-                    console.log('upload success');
-                } else {
-                    console.log(data.message);
-                }
+            success: function (resp) {
+                console.log(resp);
+                $("#" + imgId).attr("src", resp.data.nginx);
+                $("#" + imgId).attr("data-src", resp.data.file);
+                $(this).val("");
             },
             error: function (data) {
-                console.log(data.status);
+                $("#" + imgId).attr("src", "");
+                $("#" + imgId).attr("data-src", "");
+                $(this).val("");
             }
         });
+
+
     }
+
 
     /**
      * 清除搜索条件

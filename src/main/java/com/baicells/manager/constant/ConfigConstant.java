@@ -13,4 +13,11 @@ public class ConfigConstant {
     public static final String TILES_GENERAL_CLASS_PATH ="classpath:tiles-general.xml";
 
 
+    //config
+    //按照优先级逐级
+    public static final String CLASSPATH_CONFIG_PATH = "classpath:config.yml";
+    public static final String FILE_CONFIG_PATH = "file:./config.yml";
+    public static final String LOCATION_CONFIG_PATH = "file:${config-location.baicells}";
+
+
 }

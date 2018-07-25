@@ -4,11 +4,15 @@ server:
     uri-encoding: UTF-8
   servlet:
     context-path: /baicells
-
 spring:
   #application_name
   application:
-    name:
+    name: baicells
+  #file
+  servlet:
+    multipart:
+        max-file-size: 50Mb
+        maxRequestSize: 100Mb
   #datasource
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/baicells
@@ -51,6 +55,7 @@ spring:
       url_escaping_charset: UTF-8
       whitespace_stripping: true
       template_update_delay: 0
+
 
 
 #mybatis

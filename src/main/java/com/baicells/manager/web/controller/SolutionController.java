@@ -4,10 +4,10 @@ package com.baicells.manager.web.controller;
 import com.baicells.manager.utils.Result;
 import com.baicells.manager.utils.ResultCode;
 import com.baicells.manager.utils.ResultMessage;
-import org.mybatis.generator.api.MyBatisGenerator;
-import org.mybatis.generator.config.Configuration;
-import org.mybatis.generator.config.xml.ConfigurationParser;
-import org.mybatis.generator.internal.DefaultShellCallback;
+//import org.mybatis.generator.api.MyBatisGenerator;
+//import org.mybatis.generator.config.Configuration;
+//import org.mybatis.generator.config.xml.ConfigurationParser;
+//import org.mybatis.generator.internal.DefaultShellCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -57,17 +57,17 @@ public class SolutionController {
     }
 
     public static void main(String[] args) throws Exception {
-        List<String> warnings = new ArrayList<String>();
-        boolean overwrite = true;
-        ConfigurationParser cp = new ConfigurationParser(warnings);
-        Resource resource = new ClassPathResource("generatorConfig.xml");
-        Configuration config =
-                cp.parseConfiguration(resource.getFile());
-        DefaultShellCallback callback = new DefaultShellCallback(overwrite);
-        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
-        myBatisGenerator.generate(null);
-        for (String warning : warnings) {
-            System.out.println(warning);
-        }
+//        List<String> warnings = new ArrayList<String>();
+//        boolean overwrite = true;
+//        ConfigurationParser cp = new ConfigurationParser(warnings);
+//        Resource resource = new ClassPathResource("generatorConfig.xml");
+//        Configuration config =
+//                cp.parseConfiguration(resource.getFile());
+//        DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+//        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
+//        myBatisGenerator.generate(null);
+//        for (String warning : warnings) {
+//            System.out.println(warning);
+//        }
     }
 }

@@ -11,6 +11,8 @@ function UUID() {
     return uuid;
 }
 
+
+
 /**
  * 转换语种
  */
