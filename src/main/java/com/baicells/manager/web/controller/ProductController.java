@@ -6,6 +6,7 @@ import com.baicells.manager.model.dto.ProductPageQuery4WebDto;
 import com.baicells.manager.model.entity.ProductPage;
 import com.baicells.manager.service.ProductPageService;
 import com.baicells.manager.utils.DataTablesMap;
+import com.baicells.manager.utils.FastJsonUtil;
 import com.baicells.manager.utils.Result;
 import com.baicells.manager.utils.ResultCode;
 import com.github.pagehelper.PageInfo;
@@ -13,11 +14,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/product")
@@ -50,4 +53,14 @@ public class ProductController {
         Result.setData(dataTablesMap);
         return Result;
     }
+
+    @RequestMapping("/addP")
+    @ResponseBody
+    public Result add(@RequestBody Map param) {
+        Result Result = new Result();
+        Result.setCode(ResultCode.SUCCESS);
+        logger.info(FastJsonUtil.toJSONString(param));
+        return Result;
+    }
+
 }

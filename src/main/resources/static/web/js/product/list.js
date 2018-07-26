@@ -1,5 +1,6 @@
 $(function () {
     var table;
+    var editors = [];
     /** 初始化所有组件 */
     initComponents();
     /** 监听所有event事件 */
@@ -31,8 +32,11 @@ $(function () {
         $("img[class='img-rounded']").change(function () {
             if ($(this).attr("src").trim() == "") {
                 $(this).attr("src", base + "/static/web/images/noimage.png");
+                $(this).attr("data-src", "");
             }
         });
+        //提交
+        $("#submit_btn").click(submitData);
 
 
     }
@@ -118,7 +122,22 @@ $(function () {
     }
 
     function toAddProductPage() {
+        clearData();
         $("#model").modal("show");
+    }
+    function clearData() {
+        $("#title").val("");
+        $("#portalPicUrl").attr("src","");
+        $("#portalPicUrl").attr("data-src","");
+        $("#navPicUrl").attr("src","");
+        $("#navPicUrl").attr("data-src","");
+        $("#bgPicUrl").attr("src","");
+        $("#bgPicUrl").attr("data-src","");
+        $(".groupDetail").remove();
+        contentEditor.txt.clear();
+        editors = [];
+
+
     }
 
     function createNewGroup() {
@@ -142,18 +161,16 @@ $(function () {
         }
         ;
 
+        var imgTag = "group-img-"+UUID();
         var _html = "<td>" +
             "<div class='col-sm-5'>" +
             "<div>" +
-            "<img style='width:100%' src='' class='img-rounded '/>" +
+            "<img style='width:100%' src='' id='"+imgTag+"' class='img-rounded '/>" +
             "</div>" +
             "<div>" +
-            "<input type='text' class='form-control' name='' style='width: 100%;margin-top:1%;margin-bottom: 1%' placeholder='规格' value=''>" +
-            "<a href='javascript:void(0);' name='upload-group-pic'  data-toggle='tooltip' data-placement='left' title='上传图片'>" +
+            "<input type='text' class='form-control'   name='' style='width: 100%;margin-top:1%;margin-bottom: 1%' placeholder='规格' value=''>" +
+            "<a href='javascript:void(0);' name='upload-group-pic' img-id='"+imgTag+"' data-toggle='tooltip' data-placement='left' title='上传图片'>" +
             "<i class='glyphicon glyphicon-upload'></i>" +
-            "</a>" +
-            "<a href='javascript:void(0);' style='margin-left: 30px' name='remove-group-pic'  data-toggle='tooltip' data-placement='left' title='删除'>" +
-            "<i class='glyphicon glyphicon-remove'></i>" +
             "</a>" +
             "</div>" +
             "</div>" +
@@ -175,11 +192,23 @@ $(function () {
 
         $(".img-rounded").bind("error", imgError);
         $('[data-toggle="tooltip"]').tooltip();
+        $("a[name='upload-group-pic']").unbind();
+        $("a[name='upload-group-pic']").bind("click",function () {
+            $("#file").val("");
+            $("#file").attr("target-src-name", $(this).attr("img-id"));
+            $("#file").click();
+        });
+        $("img[class='img-rounded']").change(function () {
+            if ($(this).attr("src").trim() == "") {
+                $(this).attr("src", base + "/static/web/images/noimage.png");
+                $(this).attr("data-src", "");
+            }
+        });
     }
 
     function createProductDetailDesc() {
         var tag = UUID();
-        var _html = "<div name='editor-" + tag + "'>" +
+        var _html = "<div name='editor-" + tag + "' data-name='editor'>" +
             "<p>请编辑详情信息</p>" +
             "</div>";
         $(this).before(_html);
@@ -187,6 +216,12 @@ $(function () {
         var E = window.wangEditor;
         var editor = new E('div[name="editor-' + tag + '"]');
         editor.create();
+        var editorName = "editor-" + tag ;
+        var editorObj ={
+            "name":editorName,
+            "value":editor
+        };
+        editors.push(editorObj);
         $(this).hide();
         $(this).parent().parent().parent().find("td button[name='create_new_group_detail']").parent().hide();
 
@@ -202,6 +237,8 @@ $(function () {
             $(afterTds).first().find("button[name='create_product_detail_desc']").show();
         }
         $(this).parent().parent().remove();
+        $(afterTds).find("button[name='create_product_detail_desc']").unbind();
+        $(afterTds).find("button[name='create_product_detail_desc']").bind("click",createProductDetailDesc);
     }
 
     function buildGroup() {
@@ -223,7 +260,7 @@ $(function () {
 
     function toUploadPic() {
         var id = $(this).prev().attr("id");
-        console.log(id);
+        $("#file").val("");
         $("#file").attr("target-src-name", id);
         $("#file").click();
 
@@ -247,18 +284,93 @@ $(function () {
             contentType: false,
             processData: false,
             success: function (resp) {
-                console.log(resp);
+
                 $("#" + imgId).attr("src", resp.data.nginx);
                 $("#" + imgId).attr("data-src", resp.data.file);
                 $(this).val("");
             },
             error: function (data) {
+                alert("上传失败");
                 $("#" + imgId).attr("src", "");
                 $("#" + imgId).attr("data-src", "");
                 $(this).val("");
             }
         });
 
+
+    }
+
+    function submitData() {
+        var title = $("#title").val();
+        var portalPicUrl = $("#portalPicUrl").attr("data-src");
+        var navPicUrl = $("#navPicUrl").attr("data-src");
+        var bgPicUrl =  $("#bgPicUrl").attr("data-src");
+        var contentDesc = contentEditor.txt.html();
+        var productGroup = new Array();
+        $(".newGroup .groupDetail").each(function (i) {
+            var products = new Array();
+            var groupTitle = $(this).find("input[name='title']").val();
+            $(this).find("table tbody tr td").each(function (j) {
+                var obj = {};
+                var img = $(this).find(".col-sm-5 div img");
+                var url = $(img).attr("data-src");
+                var specifications = $(this).find(".col-sm-5 div input").val();
+                var editorName = $(this).find(".col-sm-7 div").attr("name");
+                if (editorName){
+                    var desc = getEditorObjByName(editorName).txt.html();
+                    obj = {
+                        "url":url,
+                        "specifications":specifications,
+                        "desc":desc
+                    };
+                    products.push(obj);
+                    return;
+                }
+                if (specifications) {
+                    obj = {
+                        "url":url,
+                        "specifications":specifications
+                    };
+                    products.push(obj)
+                }
+
+
+            });
+            var groupObj = {
+                "products":products,
+                "groupTitle":groupTitle
+            };
+            productGroup.push(groupObj);
+
+
+        });
+
+        var data = {
+            "title":title,
+            "portalPicUrl":portalPicUrl,
+            "navPicUrl":navPicUrl,
+            "bgPicUrl":bgPicUrl,
+            "productGroup":productGroup,
+            "contentDesc":contentDesc
+        };
+
+        $.ajax({
+            url: base + '/product/addP',
+            type: 'POST',
+            async: false,
+            cache: false,
+            data : JSON.stringify(data),
+            contentType : "application/json",
+            dataType : "json",
+            success: function (resp) {
+                $("#model").modal("hide");
+                search();
+            },
+            error: function (data) {
+                alert("新建失败");
+                $("#model").modal("hide");
+            }
+        });
 
     }
 
@@ -286,6 +398,15 @@ $(function () {
 
     function imgError() {
         $(this).attr("src", base + "/static/web/images/noimage.png");
+    }
+
+    function getEditorObjByName(name) {
+        for (var i in editors){
+            if (editors[i].name == name){
+                return editors[i].value;
+            }
+        }
+
     }
 
 
