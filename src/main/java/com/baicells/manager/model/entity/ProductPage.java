@@ -15,7 +15,7 @@ public class ProductPage {
      * @mbggenerated Mon Jul 23 18:04:48 CST 2018
      */
     @Id
-    @KeySql(dialect = IdentityDialect.MYSQL)
+    @KeySql(useGeneratedKeys = true)
     private Integer id;
 
     /**

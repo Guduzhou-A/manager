@@ -14,7 +14,7 @@ public class ProductPageContent {
      * @mbggenerated Mon Jul 23 18:04:48 CST 2018
      */
     @Id
-    @KeySql(dialect = IdentityDialect.MYSQL)
+    @KeySql(useGeneratedKeys = true)
     private Integer id;
 
     /**
@@ -41,6 +41,10 @@ public class ProductPageContent {
      *
      * @mbggenerated Mon Jul 23 18:04:48 CST 2018
      */
+
+    private String title;
+
+
     public Integer getId() {
         return id;
     }
@@ -103,5 +107,13 @@ public class ProductPageContent {
      */
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -1,7 +1,7 @@
 package com.baicells.manager.mapper;
 
 
-import com.baicells.manager.model.entity.ProductPageContent;
+import com.baicells.manager.model.entity.SolutionLetPage;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 * @author mapper-generator
 */
 @Repository
-public interface ProductPageContentDao extends tk.mybatis.mapper.common.Mapper<ProductPageContent> {
+public interface SolutionLetPageDao extends tk.mybatis.mapper.common.Mapper<SolutionLetPage> {
 
 }
 

@@ -69,7 +69,7 @@
             </div>
             <div class="form-group" style="margin-left: 0px;">
                 <select class="form-control" id="status">
-                    <option value="">全部</option>
+                    <option value="-1">全部</option>
                     <option value="1">已启用</option>
                     <option value="0">未启用</option>
                 </select>
@@ -91,7 +91,6 @@
     <div class="content">
         <div class="ext-btn-div" style="float: right">
             <button type="button" id="add_btn" class="btn btn-default">新建</button>
-            <button type="button" id="delete_btn" class="btn btn-default">删除</button>
         </div>
         <table id="content_table" class="table table-striped" cellspacing="0" width="100%"
                style="word-break:break-all;">
@@ -178,7 +177,7 @@
 
 
                         <div class="col-sm-10">
-                            <ul class="nav nav-tabs">
+                            <ul class="nav nav-tabs" id="choose_ul">
                                 <li class="active"><a href="#choose-one" data-toggle="tab">单内容</a></li>
                                 <li><a href="#choose-two" data-toggle="tab">带选项卡的多内容</a></li>
                             </ul>
@@ -194,7 +193,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="editor-title-1" style="margin-left:2%;margin-bottom: 2%" placeholder="切换标题" value="">
+                                        <input type="text" class="form-control" id="editor-title-2" style="margin-left:2%;margin-bottom: 2%" placeholder="切换标题" value="">
                                         <div id='content-editor-2'>
                                         </div>
                                     </div>
@@ -220,7 +219,10 @@
         <div class="modal-content">
             <form id="uploadForm" method="post" action="${(base)!}/upload" enctype='multipart/form-data'>
                 <input type="file" id="file" name="file" target-src-name="">
-                <input type="hidden" name="tag" value="product">
+                <input type="hidden" name="tag" value="product_img">
+
+                <input type="file" id="pdf_file" name="pdf_file" target-src-name="">
+                <input type="hidden" name="pdf_tag" value="product_file">
             </form>
         </div>
     </div>
@@ -233,10 +235,17 @@
 <script>
     var E = window.wangEditor;
     var contentEditor = new E('#content-editor');
+    contentEditor.customConfig.uploadImgServer = '${(base)!}/editorUpload';
+    contentEditor.customConfig.uploadFileName = 'file';
     contentEditor.create();
+
     var contentEditor1 = new E('#content-editor-1');
+    contentEditor1.customConfig.uploadImgServer = '${(base)!}/editorUpload';
+    contentEditor1.customConfig.uploadFileName = 'file';
     contentEditor1.create();
     var contentEditor2 = new E('#content-editor-2');
+    contentEditor2.customConfig.uploadImgServer = '${(base)!}/editorUpload';
+    contentEditor2.customConfig.uploadFileName = 'file';
     contentEditor2.create();
 
 

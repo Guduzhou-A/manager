@@ -18,6 +18,9 @@ public class ConvertQuery4WebData {
                 if (dataDto.getName().equals("title")) {
                     dto.setTitle(dataDto.getValue());
                 }
+                if (dataDto.getName().equals("status")) {
+                    dto.setStatus(Integer.valueOf(dataDto.getValue()));
+                }
                 if (dataDto.getName().equals("beginTime")) {
                     dto.setBeginTime(dataDto.getValue());
                 }
@@ -25,7 +28,36 @@ public class ConvertQuery4WebData {
                     dto.setEndTime(dataDto.getValue());
                 }
                 if (dataDto.getName().equals("iDisplayStart")) {
-                    dto.setIndex(Integer.valueOf(dataDto.getValue()));
+                    dto.setIndex(Integer.valueOf(dataDto.getValue()) + 1);
+                }
+                if (dataDto.getName().equals("iDisplayLength")) {
+                    dto.setSize(Integer.valueOf(dataDto.getValue()));
+                }
+            }
+        }
+        return dto;
+    }
+
+    public static SolutionQuery4WebDto convertSolutionQuery(String data) {
+        SolutionQuery4WebDto dto = new SolutionQuery4WebDto();
+        if (StringUtils.isNotEmpty(data)) {
+            List<DataDto> dataList = FastJsonUtil.toList(data, DataDto.class);
+
+            for (DataDto dataDto : dataList) {
+                if (dataDto.getName().equals("title")) {
+                    dto.setTitle(dataDto.getValue());
+                }
+                if (dataDto.getName().equals("status")) {
+                    dto.setStatus(Integer.valueOf(dataDto.getValue()));
+                }
+                if (dataDto.getName().equals("beginTime")) {
+                    dto.setBeginTime(dataDto.getValue());
+                }
+                if (dataDto.getName().equals("endTime")) {
+                    dto.setEndTime(dataDto.getValue());
+                }
+                if (dataDto.getName().equals("iDisplayStart")) {
+                    dto.setIndex(Integer.valueOf(dataDto.getValue()) + 1);
                 }
                 if (dataDto.getName().equals("iDisplayLength")) {
                     dto.setSize(Integer.valueOf(dataDto.getValue()));

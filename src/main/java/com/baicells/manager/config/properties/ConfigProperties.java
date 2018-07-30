@@ -11,7 +11,9 @@ import org.springframework.context.annotation.PropertySource;
 @ConfigurationProperties
 public class ConfigProperties {
     private String uploadUrl;
-    private String nginxUrl;
+    private String nginxUploadUrl;
+    private String webRoot;
+    private String nginxWebRoot;
 
     public String getUploadUrl() {
         return uploadUrl;
@@ -21,11 +23,27 @@ public class ConfigProperties {
         this.uploadUrl = uploadUrl;
     }
 
-    public String getNginxUrl() {
-        return nginxUrl;
+    public String getNginxUploadUrl() {
+        return nginxUploadUrl;
     }
 
-    public void setNginxUrl(String nginxUrl) {
-        this.nginxUrl = nginxUrl;
+    public void setNginxUploadUrl(String nginxUploadUrl) {
+        this.nginxUploadUrl = nginxUploadUrl;
+    }
+
+    public String getWebRoot() {
+        return webRoot;
+    }
+
+    public void setWebRoot(String webRoot) {
+        this.webRoot = webRoot;
+    }
+
+    public String getNginxWebRoot() {
+        return nginxWebRoot;
+    }
+
+    public void setNginxWebRoot(String nginxWebRoot) {
+        this.nginxWebRoot = nginxWebRoot;
     }
 }

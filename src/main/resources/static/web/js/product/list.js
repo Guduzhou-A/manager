@@ -24,7 +24,7 @@ $(function () {
         $("#add_btn").click(toAddProductPage);
         $("button[name='to_upload']").click(toUploadPic);
         $("#file").change(changeFileInput);
-
+        $("#pdf_file").change(changePDFFileInput);
         $("button[name='create_new_group']").click(createNewGroup);
         $("span[name='delete-groupDetail']").click(deleteGroupDetail);
         $("button[name='create_new_group_detail']").click(createNewGroupDetail);
@@ -32,7 +32,6 @@ $(function () {
         $("img[class='img-rounded']").change(function () {
             if ($(this).attr("src").trim() == "") {
                 $(this).attr("src", base + "/static/web/images/noimage.png");
-                $(this).attr("data-src", "");
             }
         });
         //提交
@@ -60,7 +59,7 @@ $(function () {
                 "bServerSide": true,
                 "bSort": false,
                 "bDeferRender": true,// 是否启用延迟加载：当你使用AJAX数据源时，可以提升速度。
-                "aLengthMenu": [1, 2, 3],
+                "aLengthMenu": [20, 30, 50],
                 "columns": [{
                     "data": null
                 }, {
@@ -94,11 +93,36 @@ $(function () {
                     }
                     $('td:eq(6)', row).html(enableHtml);
 
+                    var editHtml = "<a href='javascript:void(0);' name='edit-product-page' data-id='" + data.id + "' style='margin-left: 2%;margin-right: 2%' data-toggle='tooltip' data-placement='left' title='详情'>" +
+                        "<i class='glyphicon glyphicon-th-list'></i>" +
+                        "</a>";
+                    if (data.enable) {
+                        editHtml += "<a href='javascript:void(0);' name='edit-product-status' data-id='" + data.id + "' style='margin-left: 4%;margin-right: 4%' data-toggle='tooltip' data-placement='left' title='禁用'>" +
+                            "<i class='glyphicon glyphicon-remove'></i>" +
+                            "</a>";
+                    } else {
+                        editHtml += "<a href='javascript:void(0);' name='edit-product-status' data-id='" + data.id + "' style='margin-left: 4%;margin-right: 4%' data-toggle='tooltip' data-placement='left' title='启用'>" +
+                            "<i class='glyphicon glyphicon-ok'></i>" +
+                            "</a>";
+                    }
+                    editHtml += "<a href='javascript:void(0);' name='edit-product-delete' data-id='" + data.id + "' style='margin-left: 4%;margin-right: 4%' data-toggle='tooltip' data-placement='left' title='删除'>" +
+                        "<i class='glyphicon glyphicon-trash'></i>" +
+                        "</a>";
+
+                    //
+                    $('td:eq(7)', row).html(editHtml);
+                    $("a[name='edit-product-page']", row).click(editProductPage);
+                    $("a[name='edit-product-status']", row).click(editProductPageStatus);
+                    $("a[name='edit-product-delete']", row).click(editProductPageDelete);
                     $(".img-rounded", row).bind("error", imgError);
                     $('[data-toggle="tooltip"]', row).tooltip();
                 },
                 "fnServerParams": function (data) {
                     data.push(
+                        {"name": "title", "value": $("#titleName").val()},
+                        {"name": "status", "value": $("#status").val()},
+                        {"name": "beginTime", "value": $("#beginTime").val()},
+                        {"name": "endTime", "value": $("#endTime").val()}
                     );
                 },
                 "sAjaxSource": base + "/product/ajax",
@@ -121,21 +145,245 @@ $(function () {
             });
     }
 
+    function editProductPageDelete() {
+        var id = $(this).attr("data-id");
+        $.ajax({
+            url: base + '/product/delete/' + id,
+            type: 'DELETE',
+            async: false,
+            cache: false,
+            dataType: "json",
+            success: function (resp) {
+                if (resp.code == 200) {
+                    search();
+                }
+
+            },
+            error: function (data) {
+                error();
+            }
+        });
+    }
+    function editProductPageStatus() {
+        var id = $(this).attr("data-id");
+        $.ajax({
+            url: base + '/product/editStatus/' + id,
+            type: 'POST',
+            async: false,
+            cache: false,
+            dataType: "json",
+            success: function (resp) {
+                if (resp.code == 200) {
+                    search();
+                }
+
+            },
+            error: function (data) {
+                error();
+            }
+        });
+    }
+
+    function editProductPage() {
+        clearData();
+        var id = $(this).attr("data-id");
+        $.ajax({
+            url: base + '/product/edit/' + id,
+            type: 'POST',
+            async: false,
+            cache: false,
+            dataType: "json",
+            success: function (resp) {
+                if (resp.code == 200) {
+                    builEditorModel(resp.data);
+                    $("#model").modal("show");
+                }
+
+            },
+            error: function (data) {
+                error();
+                $("#model").modal("hide");
+            }
+        });
+
+    }
+
+    function builEditorModel(data) {
+        console.log(data);
+        $("#title").attr("data-id", data.id);
+        $("#title").val(data.title);
+        $("#portalPicUrl").attr("src", data.portalPicUrl);
+        $("#navPicUrl").attr("src", data.navPicUrl);
+        $("#bgPicUrl").attr("src", data.bgPicUrl);
+        var groups = data.productGroups;
+        var tags = new Array();
+        if (groups && groups.length > 0) {
+            for (var i in groups) {
+                var groupHtml = '<div class="groupDetail" data-id="' + groups[i].id + '">'
+                    + '<input type="text" class="form-control" name="title" style="margin-top:1%;margin-bottom: 1%" placeholder="组标题" value="' + groups[i].groupTitle + '">'
+                    + '<span class="label" style="cursor:pointer" name="delete-groupDetail">删除</span>'
+                    + '<span style="margin-left:3%">每组最多展示4个产品,只有单个产品为组展示才能展示详情</span>'
+                    + '<table class="table table-striped">'
+                    + '<tbody>'
+                    + '<tr>';
+                var p = groups[i].products;
+
+                if (p && p.length > 0) {
+                    //
+
+                    for (var j in p) {
+                        var imgTag = "group-img-" + UUID();
+                        var pdfTag = "group-pdf-" + UUID();
+
+                        groupHtml += "<td data-id='" + p[j].id + "'>" +
+                            "<div class='col-sm-5'>" +
+                            "<div>" +
+                            "<img style='width:100%' src='" + p[j].url + "' id='" + imgTag + "' class='img-rounded '/>" +
+                            "</div>" +
+                            "<div>" +
+                            "<input type='text' class='form-control'   name='' style='width: 100%;margin-top:1%;margin-bottom: 1%' placeholder='规格' value='" + p[j].specifications + "'>" +
+                            "<a href='javascript:void(0);' name='upload-group-pic' img-id='" + imgTag + "' data-toggle='tooltip' data-placement='left' title='上传图片'>" +
+                            "<span class='label'>图片上传</span>" +
+                            "</a>" +
+                            "<span class='label1'>PDF</span>" +
+                            "<a href='javascript:void(0);' name='upload-group-pdf'  pdf-id='" + pdfTag + "' style='margin-left: 2%;margin-right: 2%' data-toggle='tooltip' data-placement='left' title='上传PDF'>" +
+                            "<i class='glyphicon glyphicon-upload'></i>" +
+                            "</a>" +
+                            "<a href='javascript:void(0);' name='download-group-pdf' src='" + p[j].pdf + "' id='" + pdfTag + "' data-toggle='tooltip' data-placement='left' title='下载PDF'>" +
+                            "<i class='glyphicon glyphicon-download'></i>" +
+                            "</a>" +
+                            "</div>" +
+                            "</div>" +
+                            "<div class='col-sm-7' style='vertical-align: middle !important;'>";
+                        if (p.length == 1) {
+                            var tag = UUID();
+                            tags.push(tag);
+                            groupHtml += "<div name='editor-" + tag + "' data-name='editor'>" +
+                                p[j].desc +
+                                "</div>" +
+                                "<button type='button' name='create_product_detail_desc' style='display: none'  class='btn btn-default'>添加描述详情</button>";
+
+
+                        } else {
+
+
+                        }
+                        groupHtml += "<span class='label' style='cursor:pointer;' name='delete-groupDetail-desc'>删除</span>" +
+                            "</div>" +
+                            "</td>";
+                    }
+
+
+                    if (p.length == 1 || p.length == 4) {
+                        groupHtml += '<td style="display:none;"><button type="button" name="create_new_group_detail" class="btn btn-default">添加</button></td>'
+                            + '</tr>'
+                            + '</tbody>'
+                            + '</table>'
+                            + '</div>';
+                    } else {
+                        groupHtml += '<td><button type="button" name="create_new_group_detail" class="btn btn-default">添加</button></td>'
+                            + '</tr>'
+                            + '</tbody>'
+                            + '</table>'
+                            + '</div>';
+                    }
+                } else {
+                    groupHtml += '<td><button type="button" name="create_new_group_detail" class="btn btn-default">添加</button></td>'
+                        + '</tr>'
+                        + '</tbody>'
+                        + '</table>'
+                        + '</div>';
+
+                }
+
+
+                $(".newGroup button[name='create_new_group']").before(groupHtml);
+            }
+        }
+        for (var k in tags) {
+            var E = window.wangEditor;
+            var editor = new E('div[name="editor-' + tags[k] + '"]');
+            editor.customConfig.uploadImgServer = base + '/editorUpload';
+            editor.customConfig.uploadFileName = 'file';
+            editor.create();
+            var editorName = "editor-" + tags[k];
+            var editorObj = {
+                "name": editorName,
+                "value": editor
+            };
+            editors.push(editorObj);
+        }
+
+
+        $("span[name='delete-groupDetail']").click(deleteGroupDetail);
+        $("table tbody tr td:last button[name='create_new_group_detail']").click(createNewGroupDetail);
+
+
+        $("button[name='create_product_detail_desc']").click(createProductDetailDesc);
+        $("span[name='delete-groupDetail-desc']").click(deleteGroupDetailDesc);
+
+        $(".img-rounded").bind("error", imgError);
+        $('[data-toggle="tooltip"]').tooltip();
+        $("a[name='upload-group-pic']").unbind();
+        $("a[name='upload-group-pic']").bind("click", function () {
+            $("#file").val("");
+            $("#file").attr("target-src-name", $(this).attr("img-id"));
+            $("#file").click();
+        });
+        $("a[name='upload-group-pdf']").unbind();
+        $("a[name='upload-group-pdf']").bind("click", function () {
+            $("#pdf_file").val("");
+            $("#pdf_file").attr("target-src-name", $(this).attr("pdf-id"));
+            $("#pdf_file").click();
+        });
+        $("a[name='download-group-pdf']").unbind();
+        $("a[name='download-group-pdf']").bind("click", PDFClick);
+
+        $("img[class='img-rounded']").change(function () {
+            if ($(this).attr("src").trim() == "") {
+                $(this).attr("src", base + "/static/web/images/noimage.png");
+            }
+        });
+        //content
+        var contents = data.contents;
+        if (data.isTwoContent) {
+            if (contents && contents.length > 0) {
+                $("#content-editor-1").attr("data-id", contents[0].id);
+                $("#content-editor-2").attr("data-id", contents[1].id);
+                $("#editor-title-1").val(contents[0].title);
+                $("#editor-title-1").val(contents[1].title);
+                contentEditor1.txt.html(contents[0].content)
+                contentEditor2.txt.html(contents[1].content)
+            }
+        } else {
+
+            if (contents && contents.length > 0) {
+                $("#content-editor").attr("data-id", contents[0].id);
+                contentEditor.txt.html(contents[0].content)
+            }
+
+        }
+
+    }
+
     function toAddProductPage() {
         clearData();
         $("#model").modal("show");
     }
+
     function clearData() {
         $("#title").val("");
-        $("#portalPicUrl").attr("src","");
-        $("#portalPicUrl").attr("data-src","");
-        $("#navPicUrl").attr("src","");
-        $("#navPicUrl").attr("data-src","");
-        $("#bgPicUrl").attr("src","");
-        $("#bgPicUrl").attr("data-src","");
+        $("#portalPicUrl").attr("src", "");
+        $("#navPicUrl").attr("src", "");
+        $("#bgPicUrl").attr("src", "");
         $(".groupDetail").remove();
         contentEditor.txt.clear();
+        contentEditor1.txt.clear();
+        contentEditor2.txt.clear();
+        $("#editor-title-1").val("");
+        $("#editor-title-2").val("");
         editors = [];
+        $("#choose_ul li:first a").click();
 
 
     }
@@ -159,18 +407,25 @@ $(function () {
             desc_html = "";
             $(beforTds).find("button[name='create_product_detail_desc']").hide();
         }
-        ;
 
-        var imgTag = "group-img-"+UUID();
+        var imgTag = "group-img-" + UUID();
+        var pdfTag = "group-pdf-" + UUID();
         var _html = "<td>" +
             "<div class='col-sm-5'>" +
             "<div>" +
-            "<img style='width:100%' src='' id='"+imgTag+"' class='img-rounded '/>" +
+            "<img style='width:100%' src='' id='" + imgTag + "' class='img-rounded '/>" +
             "</div>" +
             "<div>" +
             "<input type='text' class='form-control'   name='' style='width: 100%;margin-top:1%;margin-bottom: 1%' placeholder='规格' value=''>" +
-            "<a href='javascript:void(0);' name='upload-group-pic' img-id='"+imgTag+"' data-toggle='tooltip' data-placement='left' title='上传图片'>" +
+            "<a href='javascript:void(0);' name='upload-group-pic' img-id='" + imgTag + "' data-toggle='tooltip' data-placement='left' title='上传图片'>" +
+            "<span class='label'>图片上传</span>" +
+            "</a>" +
+            "<span class='label1'>PDF</span>" +
+            "<a href='javascript:void(0);' name='upload-group-pdf'  pdf-id='" + pdfTag + "' style='margin-left: 2%;margin-right: 2%' data-toggle='tooltip' data-placement='left' title='上传PDF'>" +
             "<i class='glyphicon glyphicon-upload'></i>" +
+            "</a>" +
+            "<a href='javascript:void(0);' name='download-group-pdf' id='" + pdfTag + "' data-toggle='tooltip' data-placement='left' title='下载PDF'>" +
+            "<i class='glyphicon glyphicon-download'></i>" +
             "</a>" +
             "</div>" +
             "</div>" +
@@ -193,17 +448,26 @@ $(function () {
         $(".img-rounded").bind("error", imgError);
         $('[data-toggle="tooltip"]').tooltip();
         $("a[name='upload-group-pic']").unbind();
-        $("a[name='upload-group-pic']").bind("click",function () {
+        $("a[name='upload-group-pic']").bind("click", function () {
             $("#file").val("");
             $("#file").attr("target-src-name", $(this).attr("img-id"));
             $("#file").click();
         });
+        $("a[name='upload-group-pdf']").unbind();
+        $("a[name='upload-group-pdf']").bind("click", function () {
+            $("#pdf_file").val("");
+            $("#pdf_file").attr("target-src-name", $(this).attr("pdf-id"));
+            $("#pdf_file").click();
+        });
+        $("a[name='download-group-pdf']").unbind();
+        $("a[name='download-group-pdf']").bind("click", PDFClick);
+
         $("img[class='img-rounded']").change(function () {
             if ($(this).attr("src").trim() == "") {
                 $(this).attr("src", base + "/static/web/images/noimage.png");
-                $(this).attr("data-src", "");
             }
         });
+
     }
 
     function createProductDetailDesc() {
@@ -215,11 +479,13 @@ $(function () {
         // $(this).
         var E = window.wangEditor;
         var editor = new E('div[name="editor-' + tag + '"]');
+        editor.customConfig.uploadImgServer = base + '/editorUpload';
+        editor.customConfig.uploadFileName = 'file';
         editor.create();
-        var editorName = "editor-" + tag ;
-        var editorObj ={
-            "name":editorName,
-            "value":editor
+        var editorName = "editor-" + tag;
+        var editorObj = {
+            "name": editorName,
+            "value": editor
         };
         editors.push(editorObj);
         $(this).hide();
@@ -238,7 +504,7 @@ $(function () {
         }
         $(this).parent().parent().remove();
         $(afterTds).find("button[name='create_product_detail_desc']").unbind();
-        $(afterTds).find("button[name='create_product_detail_desc']").bind("click",createProductDetailDesc);
+        $(afterTds).find("button[name='create_product_detail_desc']").bind("click", createProductDetailDesc);
     }
 
     function buildGroup() {
@@ -284,15 +550,11 @@ $(function () {
             contentType: false,
             processData: false,
             success: function (resp) {
-
-                $("#" + imgId).attr("src", resp.data.nginx);
-                $("#" + imgId).attr("data-src", resp.data.file);
+                $("#" + imgId).attr("src", resp.data.url);
                 $(this).val("");
             },
             error: function (data) {
                 alert("上传失败");
-                $("#" + imgId).attr("src", "");
-                $("#" + imgId).attr("data-src", "");
                 $(this).val("");
             }
         });
@@ -300,12 +562,84 @@ $(function () {
 
     }
 
+    function changePDFFileInput() {
+        var pdfId = $("#pdf_file").attr("target-src-name");
+        var data = new FormData($('#uploadForm')[0]);
+        $.ajax({
+            url: base + '/uploadPDF',
+            type: 'POST',
+            data: data,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (resp) {
+                $("#" + pdfId).attr("src", resp.data.url);
+                $(this).val("");
+            },
+            error: function (data) {
+                alert("上传失败");
+                $(this).val("");
+            }
+        });
+
+
+    }
+
+    function PDFClick() {
+        if (!$(this).attr("src")) {
+            alert("无法下载，暂无文件");
+            return;
+        }
+        window.open($(this).attr("src"));
+
+    }
+
+
     function submitData() {
+        var id = parseInt($("#title").attr("data-id"));
+        if (!id) {
+            id = -1
+        }
         var title = $("#title").val();
-        var portalPicUrl = $("#portalPicUrl").attr("data-src");
-        var navPicUrl = $("#navPicUrl").attr("data-src");
-        var bgPicUrl =  $("#bgPicUrl").attr("data-src");
-        var contentDesc = contentEditor.txt.html();
+        var portalPicUrl = $("#portalPicUrl").attr("src");
+        var navPicUrl = $("#navPicUrl").attr("src");
+        var bgPicUrl = $("#bgPicUrl").attr("src");
+        var isTwoContent = false;
+        var contents = [];
+        if ($("#choose-two").hasClass("active")) {
+            isTwoContent = true;
+            var cId1 = parseInt($("#content-editor-1").attr("data-id"));
+            if (!cId1) {
+                cId1 = -1
+            }
+            var contentObject1 = {
+                "id": cId1,
+                "title": $("#editor-title-1").val(),
+                "content": contentEditor1.txt.html()
+            }
+            var cId2 = parseInt($("#content-editor-2").attr("data-id"));
+            if (!cId2) {
+                cId2 = -1
+            }
+            var contentObject2 = {
+                "id": cId2,
+                "title": $("#editor-title-2").val(),
+                "content": contentEditor2.txt.html()
+            };
+            contents.push(contentObject1);
+            contents.push(contentObject2);
+        } else {
+            var cId = parseInt($("#content-editor").attr("data-id"));
+            if (!cId) {
+                cId = -1
+            }
+            var contentDesc = {
+                "id": cId,
+                "content": contentEditor.txt.html()
+            };
+            contents.push(contentDesc);
+        }
         var productGroup = new Array();
         $(".newGroup .groupDetail").each(function (i) {
             var products = new Array();
@@ -313,32 +647,47 @@ $(function () {
             $(this).find("table tbody tr td").each(function (j) {
                 var obj = {};
                 var img = $(this).find(".col-sm-5 div img");
-                var url = $(img).attr("data-src");
+                var url = $(img).attr("src");
                 var specifications = $(this).find(".col-sm-5 div input").val();
+                var pdf = $(this).find(".col-sm-5 div a[name='download-group-pdf']").attr("src");
                 var editorName = $(this).find(".col-sm-7 div").attr("name");
-                if (editorName){
+                var gpId = parseInt($(this).attr("data-id"));
+                if (!gpId) {
+                    gpId = -1
+                }
+                ;
+                if (editorName) {
                     var desc = getEditorObjByName(editorName).txt.html();
                     obj = {
-                        "url":url,
-                        "specifications":specifications,
-                        "desc":desc
+                        "id": gpId,
+                        "url": url,
+                        "pdf": pdf,
+                        "specifications": specifications,
+                        "desc": desc
                     };
                     products.push(obj);
                     return;
                 }
                 if (specifications) {
                     obj = {
-                        "url":url,
-                        "specifications":specifications
+                        "id": gpId,
+                        "url": url,
+                        "pdf": pdf,
+                        "specifications": specifications
                     };
                     products.push(obj)
                 }
 
 
             });
+            var gId = $(this).attr("data-id");
+            if (!gId) {
+                gId = -1
+            }
             var groupObj = {
-                "products":products,
-                "groupTitle":groupTitle
+                "products": products,
+                "groupTitle": groupTitle,
+                "id": gId
             };
             productGroup.push(groupObj);
 
@@ -346,28 +695,35 @@ $(function () {
         });
 
         var data = {
-            "title":title,
-            "portalPicUrl":portalPicUrl,
-            "navPicUrl":navPicUrl,
-            "bgPicUrl":bgPicUrl,
-            "productGroup":productGroup,
-            "contentDesc":contentDesc
+            "id": id,
+            "title": title,
+            "portalPicUrl": portalPicUrl,
+            "navPicUrl": navPicUrl,
+            "bgPicUrl": bgPicUrl,
+            "productGroups": productGroup,
+            "isTwoContent": isTwoContent,
+            "contents": contents
         };
 
         $.ajax({
-            url: base + '/product/addP',
+            url: base + '/product/addOrUpdate',
             type: 'POST',
             async: false,
             cache: false,
-            data : JSON.stringify(data),
-            contentType : "application/json",
-            dataType : "json",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: "json",
             success: function (resp) {
                 $("#model").modal("hide");
-                search();
+                if (resp.code == 200) {
+                    search();
+                } else {
+                    error();
+                }
+
             },
             error: function (data) {
-                alert("新建失败");
+                alert("操作失败,服务器错误");
                 $("#model").modal("hide");
             }
         });
@@ -396,13 +752,10 @@ $(function () {
         });
     }
 
-    function imgError() {
-        $(this).attr("src", base + "/static/web/images/noimage.png");
-    }
 
     function getEditorObjByName(name) {
-        for (var i in editors){
-            if (editors[i].name == name){
+        for (var i in editors) {
+            if (editors[i].name == name) {
                 return editors[i].value;
             }
         }

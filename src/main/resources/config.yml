@@ -1,2 +1,4 @@
-upload-url: src/main/resources/static/upload/
-nginx-url: baicells/static/upload/
+upload-url: F://waibao//nginx_web//site//manager//
+nginx-upload-url: http://localhost/manager//
+web-root: F://waibao//nginx_web//site//
+nginx-web-root: http://localhost/

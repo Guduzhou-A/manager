@@ -11,6 +11,9 @@ function UUID() {
     return uuid;
 }
 
+function imgError() {
+    $(this).attr("src", base + "/static/web/images/noimage.png");
+}
 
 
 /**

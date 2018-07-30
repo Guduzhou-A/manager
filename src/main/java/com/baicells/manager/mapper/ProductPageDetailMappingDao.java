@@ -2,6 +2,7 @@ package com.baicells.manager.mapper;
 
 
 import com.baicells.manager.model.entity.ProductPageDetailMapping;
+import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
@@ -9,6 +10,7 @@ import tk.mybatis.mapper.common.Mapper;
 *
 * @author mapper-generator
 */
+@Repository
 public interface ProductPageDetailMappingDao extends Mapper<ProductPageDetailMapping> {
 
 }

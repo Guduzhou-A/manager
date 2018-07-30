@@ -15,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -36,15 +38,52 @@ public class IndexController {
         return "site.baicells.index.index";
     }
 
+    @RequestMapping("editorUpload")
+    @ResponseBody
+    public Map<String,Object> editorUpload(MultipartFile file, HttpServletRequest request) {
+        Map<String,Object> resultMap = new HashMap<>();
+        try {
+            final String imageDir = "images/";
+            final String imagePath = configProperties.getUploadUrl() + imageDir;
+            String dataPath = FileUtil.upload(file, imagePath, "editor_img");
+            String nginxPath = configProperties.getNginxUploadUrl() + imageDir+ dataPath;
+            List<String> urls = new ArrayList<>();
+            urls.add(nginxPath);
+            resultMap.put("data",urls);
+            resultMap.put("errno",0);
+        }catch (Exception e){
+            resultMap.put("errno",500);
+        }
+
+
+        return resultMap;
+    }
+
+
     @RequestMapping("upload")
     @ResponseBody
     public Result upload(MultipartFile file, String tag, HttpServletRequest request) {
         Result result = new Result();
-        String dataPath = FileUtil.upload(file, configProperties.getUploadUrl(), tag);
-        String nginxPath =configProperties.getNginxUrl()+dataPath;
-        Map<String,String> resultMap = new HashMap<>();
-        resultMap.put("file",dataPath);
-        resultMap.put("nginx",nginxPath);
+        final String imageDir = "images/";
+        final String imagePath = configProperties.getUploadUrl() + imageDir;
+        String dataPath = FileUtil.upload(file, imagePath, tag);
+        String nginxPath = configProperties.getNginxUploadUrl() + imageDir+ dataPath;
+        Map<String, String> resultMap = new HashMap<>();
+        resultMap.put("url", nginxPath);
+        result.setData(resultMap);
+        return result;
+    }
+
+    @RequestMapping("uploadPDF")
+    @ResponseBody
+    public Result uploadPDF(MultipartFile pdf_file, String pdf_tag, HttpServletRequest request) {
+        Result result = new Result();
+        final String fileDir = "file/";
+        final String pdfPath = configProperties.getUploadUrl() + fileDir;
+        String dataPath = FileUtil.upload(pdf_file, pdfPath, pdf_tag);
+        String nginxPath = configProperties.getNginxUploadUrl() + fileDir+ dataPath;
+        Map<String, String> resultMap = new HashMap<>();
+        resultMap.put("url", nginxPath);
         result.setData(resultMap);
         return result;
     }

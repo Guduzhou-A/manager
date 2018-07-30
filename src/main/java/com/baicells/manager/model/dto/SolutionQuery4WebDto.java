@@ -1,9 +1,6 @@
 package com.baicells.manager.model.dto;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
-
-public class ProductPageQuery4WebDto {
+public class SolutionQuery4WebDto {
 
     private String title;
     private Integer status;
