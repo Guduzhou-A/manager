@@ -17,7 +17,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="${base}/solution/5g">5G-解决方案</a></li>
                         <li role="separator	" class="divider"></li>
-                        <li><a href="${base}/artists">LTE-解决方案</a></li>
+                        <li><a href="${base}/solution/let">LTE-解决方案</a></li>
                     </ul>
                 </li>
                 <li class="dropdown <#if requestPath! == 'product'>active</#if>">
@@ -27,44 +27,35 @@
 
                     </ul>
                 </li>
-
-                <li class="dropdown <#if requestPath! == 'playlists'||requestPath! == 'rankings'||requestPath! == 'recommend'>active</#if>">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">编排管理 <span class="caret"></span></a>
+                <li class="dropdown <#if requestPath! == 'media'>active</#if>">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">媒体管理 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="${base}/playlists">歌单管理</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${base}/rankings">榜单管理</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${base}/recommend">推荐管理</a></li>
-                        <li role="separator" class="divider"></li>
+                        <li><a href="${base}/media/news">新闻稿管理</a></li>
+                        <li><a href="${base}/media/brand">活动管理</a></li>
+                        <li><a href="${base}/media/customer">客户内容管理</a></li>
                     </ul>
                 </li>
 
-                <li class="dropdown <#if requestPath! == 'goods' ||requestPath! == 'gift'>active</#if>">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">运营业务 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="${base}/package/all">产品包管理</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${base}/goods">商品管理</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${base}/activity/">活动管理</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li ><a href="${base}/gifts">礼物管理</a></li>
-                        <li role="separator" class="divider"></li>
-                    </ul>
-                </li>
+                <#--<li class="dropdown <#if requestPath! == 'media'>active</#if>">-->
+                    <#--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系统管理 <span class="caret"></span></a>-->
+                    <#--<ul class="dropdown-menu">-->
+                        <#--<li><a href="${base}/media/news">新闻稿管理</a></li>-->
+                        <#--<li><a href="${base}/media/brand">活动管理</a></li>-->
+                        <#--<li><a href="${base}/media/customer">客户管理</a></li>-->
+                    <#--</ul>-->
+                <#--</li>-->
 
 
-                <li class="dropdown <#if requestPath! == 'artistGroup'||requestPath! == 'area'||requestPath! == 'contentGroup'||requestPath! == 'hotword' ||requestPath! == 'searchRecommend' ||requestPath! == 'c_versions'>active</#if>">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系统管理 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="${base}/artistGroup/list">歌手分类管理</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${base}/contentGroup/list">歌曲分类管理</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${base}/system/sensitiveWord">敏感词库</a></li>
-                    </ul>
-                </li>
+                <#--<li class="dropdown <#if requestPath! == 'media'>active</#if>">-->
+                    <#--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">系统管理 <span class="caret"></span></a>-->
+                    <#--<ul class="dropdown-menu">-->
+                        <#--<li><a href="${base}/media/news">支持与简介页面管理</a></li>-->
+                        <#--<li><a href="${base}/media/brand">下载管理</a></li>-->
+                        <#--<li><a href="${base}/media/customer">页面其余参数管理</a></li>-->
+                    <#--</ul>-->
+                <#--</li>-->
+
+
             </ul>
 
 

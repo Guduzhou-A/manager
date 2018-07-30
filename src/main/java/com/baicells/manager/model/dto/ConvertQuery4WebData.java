@@ -66,4 +66,35 @@ public class ConvertQuery4WebData {
         }
         return dto;
     }
+
+    public static MediaQuery4WebDto convertMediaQuery(String data) {
+        MediaQuery4WebDto dto = new MediaQuery4WebDto();
+        if (StringUtils.isNotEmpty(data)) {
+            List<DataDto> dataList = FastJsonUtil.toList(data, DataDto.class);
+
+            for (DataDto dataDto : dataList) {
+                if (dataDto.getName().equals("title")) {
+                    dto.setTitle(dataDto.getValue());
+                }
+                if (dataDto.getName().equals("status")) {
+                    dto.setStatus(Integer.valueOf(dataDto.getValue()));
+                }
+                if (dataDto.getName().equals("beginTime")) {
+                    dto.setBeginTime(dataDto.getValue());
+                }
+                if (dataDto.getName().equals("endTime")) {
+                    dto.setEndTime(dataDto.getValue());
+                }
+                if (dataDto.getName().equals("iDisplayStart")) {
+                    dto.setIndex(Integer.valueOf(dataDto.getValue()) + 1);
+                }
+                if (dataDto.getName().equals("iDisplayLength")) {
+                    dto.setSize(Integer.valueOf(dataDto.getValue()));
+                }
+            }
+        }
+        return dto;
+    }
+
+
 }

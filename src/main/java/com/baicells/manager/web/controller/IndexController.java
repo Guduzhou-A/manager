@@ -34,8 +34,7 @@ public class IndexController {
 
     @RequestMapping("")
     public String index(HttpServletRequest request) {
-        logger.info(JSON.toJSONString(projectProperties.getName()));
-        return "site.baicells.index.index";
+        return "site.baicells.5g-solution.list";
     }
 
     @RequestMapping("editorUpload")

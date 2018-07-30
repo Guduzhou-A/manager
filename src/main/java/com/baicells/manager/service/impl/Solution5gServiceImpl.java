@@ -53,7 +53,7 @@ public class Solution5gServiceImpl implements Solution5gService {
         String htmlName = "solution_5g_" + CommonUtil.getUUID(16);
         Map<String, Object> fltMap = new HashMap<>();
         fltMap.put("data", dto);
-        CreateHtmlUtils.createHtml(configProperties.getWebRoot(), "solution_5g_templadte.ftl", htmlName, fltMap);
+        CreateHtmlUtils.createHtml(configProperties.getWebRoot(), "solution_5g_template.ftl", htmlName, fltMap);
         String forwardUrl = configProperties.getNginxWebRoot() + htmlName + ".html";
 
         Solution5gPage solution5gPage;
@@ -75,6 +75,7 @@ public class Solution5gServiceImpl implements Solution5gService {
         solution5gPage.setBgPicUrl(dto.getBgPicUrl());
         solution5gPage.setContentDesc(dto.getContentDesc());
         solution5gPage.setContentTop(dto.getContentTop());
+        solution5gPage.setContentBottom(dto.getContentBottom());
         solution5gPage.setNavPicUrl(dto.getNavPicUrl());
         solution5gPage.setNavDesc(dto.getNavDesc());
         solution5gPage.setMiddleTitle(dto.getMiddleTitle());

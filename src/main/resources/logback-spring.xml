@@ -105,7 +105,7 @@
 
     <!--myibatis log configure-->
     <!-- project default level -->
-    <logger name="cn.videoworks.oath2" level="debug" />
+    <logger name="com.baicells.manager" level="debug" />
 
     <!--log4jdbc -->
     <logger name="jdbc.sqltiming" level="debug"/>

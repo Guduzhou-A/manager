@@ -1,14 +1,3 @@
-/**
- * Md5Util.java
- * cn.videoworks.publisher.util
- *
- *
- *   ver     date      		author
- * ──────────────────────────────────
- *   		 2015年4月23日 		meishen
- *
- * Copyright (c) 2015, TNT All Rights Reserved.
- */
 
 package com.baicells.manager.utils;
 

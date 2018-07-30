@@ -2,8 +2,7 @@ package com.baicells.manager.web.controller;
 
 
 import com.baicells.manager.model.dto.*;
-import com.baicells.manager.model.entity.ProductPage;
-import com.baicells.manager.model.entity.Solution5gPage;
+import com.baicells.manager.model.entity.*;
 import com.baicells.manager.service.Solution5gService;
 import com.baicells.manager.service.SolutionLETService;
 import com.baicells.manager.utils.*;
@@ -61,12 +60,42 @@ public class SolutionController {
         return result;
     }
 
+    @RequestMapping("5g/edit/{id}")
+    @ResponseBody
+    public Result editData(@PathVariable(name = "id") int id) {
+        Result result = new Result();
+        result.setCode(ResultCode.SUCCESS);
+        Solution5gPage solution5gPage = solution5gServiceImpl.getById(id);
+        if (null != solution5gPage){
+            Solution5gDataDto dto = new Solution5gDataDto();
+            dto.setId(solution5gPage.getId());
+            dto.setBgPicUrl(solution5gPage.getBgPicUrl());
+            dto.setContentBottom(solution5gPage.getContentBottom());
+            dto.setContentDesc(solution5gPage.getContentDesc());
+            dto.setContentTop(solution5gPage.getContentTop());
+            dto.setMiddleBgUrl(solution5gPage.getMiddleBgPic());
+            dto.setMiddlePic1(solution5gPage.getMiddlePic1());
+            dto.setMiddlePic2(solution5gPage.getMiddlePic2());
+            dto.setMiddlePic3(solution5gPage.getMiddlePic3());
+            dto.setMiddleTitle(solution5gPage.getMiddleTitle());
+            dto.setMiddleTitle1(solution5gPage.getMiddleText1());
+            dto.setMiddleTitle2(solution5gPage.getMiddleText2());
+            dto.setMiddleTitle3(solution5gPage.getMiddleText3());
+            dto.setNavDesc(solution5gPage.getNavDesc());
+            dto.setNavPicUrl(solution5gPage.getNavPicUrl());
+            dto.setTitle(solution5gPage.getTitle());
+            result.setData(dto);
+        }
+
+
+        return result;
+    }
+
     @RequestMapping("/5g/editStatus/{id}")
     @ResponseBody
     public Result editStatus(@PathVariable(name = "id") int id) {
         Result result = new Result();
         result.setCode(ResultCode.SUCCESS);
-        System.out.println(id);
         Solution5gPage solution5gPage = solution5gServiceImpl.getById(id);
         if (null != solution5gPage) {
             solution5gPage.setEnable(!solution5gPage.getEnable());
@@ -95,6 +124,90 @@ public class SolutionController {
         logger.info(FastJsonUtil.toJSONString(dto));
         try {
             solution5gServiceImpl.addOrUpdateByDto(dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode(ResultCode.INTERNAL_SERVER_ERROR);
+        }
+
+
+        return result;
+    }
+
+
+
+    @RequestMapping("/let")
+    public String indexLet(HttpServletRequest request) {
+        return "site.baicells.let-solution.list";
+    }
+
+    @RequestMapping("/let/ajax")
+    @ResponseBody
+    public Result ajaxLet(String data) {
+        Result result = new Result();
+        result.setCode(ResultCode.SUCCESS);
+        SolutionQuery4WebDto dto = ConvertQuery4WebData.convertSolutionQuery(data);
+        PageInfo<SolutionLetPage> solutionLetPagePageInfo = solutionLETServiceImpl.listByQuery(dto);
+        DataTablesMap dataTablesMap = new DataTablesMap();
+        dataTablesMap.setData(solutionLetPagePageInfo.getList());
+        dataTablesMap.setiTotalRecords(solutionLetPagePageInfo.getPageNum());
+        dataTablesMap.setiTotalDisplayRecords(solutionLetPagePageInfo.getTotal());
+        result.setData(dataTablesMap);
+        return result;
+    }
+
+    @RequestMapping("let/edit/{id}")
+    @ResponseBody
+    public Result editDataLet(@PathVariable(name = "id") int id) {
+        Result result = new Result();
+        result.setCode(ResultCode.SUCCESS);
+        SolutionLetPage solutionLetPage = solutionLETServiceImpl.getById(id);
+        if (null != solutionLetPage){
+            SolutionLetDataDto dto = new SolutionLetDataDto();
+            dto.setId(solutionLetPage.getId());
+            dto.setBgPicUrl(solutionLetPage.getBgPicUrl());
+            dto.setNavPicUrl(solutionLetPage.getNavPicUrl());
+            dto.setTitle(solutionLetPage.getTitle());
+            dto.setContent(solutionLetPage.getContent());
+            result.setData(dto);
+        }
+
+
+        return result;
+    }
+
+    @RequestMapping("/let/editStatus/{id}")
+    @ResponseBody
+    public Result editStatusLet(@PathVariable(name = "id") int id) {
+        Result result = new Result();
+        result.setCode(ResultCode.SUCCESS);
+        SolutionLetPage solutionLetPage = solutionLETServiceImpl.getById(id);
+        if (null != solutionLetPage) {
+            solutionLetPage.setEnable(!solutionLetPage.getEnable());
+            solutionLetPage.setUpdateTime(DateUtils.now());
+            solutionLETServiceImpl.updateById(solutionLetPage);
+        }
+        return result;
+    }
+
+    @RequestMapping("/let/delete/{id}")
+    @ResponseBody
+    public Result deleteLet(@PathVariable(name = "id") int id) {
+        Result result = new Result();
+        result.setCode(ResultCode.SUCCESS);
+        solutionLETServiceImpl.delete(id);
+
+        return result;
+    }
+
+
+    @RequestMapping("/let/addOrUpdate")
+    @ResponseBody
+    public Result addOrUpdateLet(@RequestBody SolutionLetDataDto dto) {
+        Result result = new Result();
+        result.setCode(ResultCode.SUCCESS);
+        logger.info(FastJsonUtil.toJSONString(dto));
+        try {
+            solutionLETServiceImpl.addOrUpdateByDto(dto);
         } catch (Exception e) {
             e.printStackTrace();
             result.setCode(ResultCode.INTERNAL_SERVER_ERROR);

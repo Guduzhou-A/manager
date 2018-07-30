@@ -249,7 +249,7 @@
         <div class="modal-content">
             <form id="uploadForm" method="post" action="${(base)!}/upload" enctype='multipart/form-data'>
                 <input type="file" id="file" name="file" target-src-name="">
-                <input type="hidden" name="tag" value="solution_img">
+                <input type="hidden" name="tag" value="solution_5g_img">
 
             </form>
         </div>

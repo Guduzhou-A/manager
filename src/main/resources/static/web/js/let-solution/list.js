@@ -55,15 +55,13 @@ $(function () {
                 }, {
                     "data": null
                 }, {
-                    "data": "navDesc"
+                    "data": null
                 }, {
-                    "data": 'contentDesc'
+                    "data": null
                 }, {
                     "data": null
                 }, {
                     "data": "createTime"
-                }, {
-                    "data": null
                 }, {
                     "data": null
                 }],
@@ -71,8 +69,10 @@ $(function () {
                 "oLanguage": language,
                 "rowCallback": function (row, data, index) {
                     $('td:eq(0)', row).html("<input name='chk_list' type='checkbox' id='" + data.id + "'>");
-                    $('td:eq(2)', row).html("<a name='image-a' href='" + data.navPicUrl + "' target='_blank'><img style='width: 100px;height: 100px' src='" + data.navPicUrl + "'   class='img-rounded '/></a>");
-                    $('td:eq(5)', row).html("<a name='image-a' href='" + data.bgPicUrl + "' target='_blank'><img style='width: 100px;height: 100px' src='" + data.bgPicUrl + "'    class='img-rounded '/></a>");
+                    $('td:eq(2)', row).html("<a name='image-a' href='" + data.portalPicUrl + "' target='_blank'><img style='width: 100px;height: 100px' src='" + data.portalPicUrl + "'   class='img-rounded '/></a>");
+                    $('td:eq(3)', row).html("<a name='image-a' href='" + data.navPicUrl + "' target='_blank'><img style='width: 100px;height: 100px' src='" + data.navPicUrl + "'    class='img-rounded '/></a>");
+                    $('td:eq(4)', row).html("<a name='image-a' href='" + data.bgPicUrl + "' target='_blank'><img style='width: 100px;height: 100px' src='" + data.bgPicUrl + "'    class='img-rounded '/></a>");
+
 
                     var enableHtml = "";
                     if (data.enable) {
@@ -80,7 +80,7 @@ $(function () {
                     } else {
                         enableHtml = "<span class='label'>未启用</span>"
                     }
-                    $('td:eq(7)', row).html(enableHtml);
+                    $('td:eq(5)', row).html(enableHtml);
 
                     var editHtml = "<a href='javascript:void(0);' name='edit-solution-page' data-id='" + data.id + "' style='margin-left: 2%;margin-right: 2%' data-toggle='tooltip' data-placement='left' title='详情'>" +
                         "<i class='glyphicon glyphicon-th-list'></i>" +
@@ -99,7 +99,7 @@ $(function () {
                         "</a>";
 
                     //
-                    $('td:eq(8)', row).html(editHtml);
+                    $('td:eq(7)', row).html(editHtml);
                     $("a[name='edit-solution-page']", row).click(editSolutionPage);
                     $("a[name='edit-solution-status']", row).click(editSolutionPageStatus);
                     $("a[name='edit-solution-delete']", row).click(editSolutionPageDelete);
@@ -114,7 +114,7 @@ $(function () {
                         {"name": "endTime", "value": $("#endTime").val()}
                     );
                 },
-                "sAjaxSource": base + "/solution/5g/ajax",
+                "sAjaxSource": base + "/solution/let/ajax",
                 "fnServerData": function (sSource, data, fnCallback) {
                     $.ajax({
                         "type": 'post',
@@ -137,7 +137,7 @@ $(function () {
     function editSolutionPageDelete() {
         var id = $(this).attr("data-id");
         $.ajax({
-            url: base + '/solution/5g/delete/' + id,
+            url: base + '/solution/let/delete/' + id,
             type: 'DELETE',
             async: false,
             cache: false,
@@ -157,7 +157,7 @@ $(function () {
     function editSolutionPageStatus() {
         var id = $(this).attr("data-id");
         $.ajax({
-            url: base + '/solution/5g/editStatus/' + id,
+            url: base + '/solution/let/editStatus/' + id,
             type: 'POST',
             async: false,
             cache: false,
@@ -178,7 +178,7 @@ $(function () {
         clearData();
         var id = $(this).attr("data-id");
         $.ajax({
-            url: base + '/solution/5g/edit/' + id,
+            url: base + '/solution/let/edit/' + id,
             type: 'POST',
             async: false,
             cache: false,
@@ -204,19 +204,10 @@ $(function () {
 
         $("#title").val(data.title);
         $("#navPicUrl").attr("src", data.navPicUrl);
-        $("#navDesc").val(data.navDesc);
         $("#bgPicUrl").attr("src", data.bgPicUrl);
-        $("#contentDesc").val(data.contentDesc);
-        contentTopEditor.txt.html(data.contentTop);
-        contentBottomEditor.txt.html(data.contentBottom);
-        $("#middleTitle").val(data.middleTitle);
-        $("#middleBgUrl").attr("src", data.middleBgUrl);
-        $("#middle-pic-1").attr("src", data.middlePic1);
-        $("#middle-pic-2").attr("src", data.middlePic2);
-        $("#middle-pic-3").attr("src", data.middlePic3);
-        $("#middle-title-1").val(data.middleTitle1);
-        $("#middle-title-2").val(data.middleTitle2);
-        $("#middle-title-3").val(data.middleTitle3);
+        $("#portalPicUrl").attr("src", data.portalPicUrl);
+        contentEditor.txt.html(data.content);
+
     }
 
     function toAddPage() {
@@ -226,23 +217,13 @@ $(function () {
     }
 
     function clearData() {
-        $("#title").attr("data-id",-1);
+        $("#title").attr("data-id", -1);
         $("#title").val("");
-        $("#navDesc").val("");
-        $("#contentDesc").val("");
+        $("#portalPicUrl").attr("src", "");
         $("#navPicUrl").attr("src", "");
         $("#bgPicUrl").attr("src", "");
 
-        $("#middleTitle").val("");
-        $("#middleBgUrl").attr("src", "");
-        $("#middle-pic-1").attr("src", "");
-        $("#middle-pic-2").attr("src", "");
-        $("#middle-pic-3").attr("src", "");
-        $("#middle-title-1").val("");
-        $("#middle-title-2").val("");
-        $("#middle-title-1").val("");
-        contentTopEditor.txt.clear();
-        contentBottomEditor.txt.clear();
+        contentEditor.txt.clear();
 
 
     }
@@ -300,41 +281,21 @@ $(function () {
         }
         var title = $("#title").val();
         var navPicUrl = $("#navPicUrl").attr("src");
-        var navDesc = $("#navDesc").val();
         var bgPicUrl = $("#bgPicUrl").attr("src");
-        var contentDesc = $("#contentDesc").val();
-        var contentTop = contentTopEditor.txt.html();
-        var contentBottom = contentBottomEditor.txt.html();
-        var middleTitle = $("#middleTitle").val();
-        var middleBgUrl = $("#middleBgUrl").attr("src");
-        var middlePic1 = $("#middle-pic-1").attr("src");
-        var middlePic2 = $("#middle-pic-2").attr("src");
-        var middlePic3 = $("#middle-pic-3").attr("src");
-        var middleTitle1 = $("#middle-title-1").val();
-        var middleTitle2 = $("#middle-title-2").val();
-        var middleTitle3 = $("#middle-title-3").val();
+        var portalPicUrl = $("#portalPicUrl").attr("src");
+        var content = contentEditor.txt.html();
+
         var data = {
             "id": id,
             "title": title,
+            "portalPicUrl": portalPicUrl,
             "navPicUrl": navPicUrl,
-            "navDesc": navDesc,
             "bgPicUrl": bgPicUrl,
-            "contentDesc": contentDesc,
-            "contentTop": contentTop,
-            "contentBottom": contentBottom,
-            "middleTitle": middleTitle,
-            "middleBgUrl": middleBgUrl,
-            "middlePic1": middlePic1,
-            "middlePic2": middlePic2,
-            "middlePic3": middlePic3,
-            "middleTitle1": middleTitle1,
-            "middleTitle2": middleTitle2,
-            "middleTitle3": middleTitle3,
-
+            "content": content
         };
 
         $.ajax({
-            url: base + '/solution/5g/addOrUpdate',
+            url: base + '/solution/let/addOrUpdate',
             type: 'POST',
             async: false,
             cache: false,
