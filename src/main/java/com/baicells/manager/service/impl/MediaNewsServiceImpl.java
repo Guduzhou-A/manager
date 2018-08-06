@@ -4,6 +4,7 @@ import com.baicells.manager.config.properties.ConfigProperties;
 import com.baicells.manager.mapper.MediaNewsDao;
 import com.baicells.manager.model.dto.MediaNewsDataDto;
 import com.baicells.manager.model.dto.MediaQuery4WebDto;
+import com.baicells.manager.model.entity.MediaBrand;
 import com.baicells.manager.model.entity.MediaNews;
 import com.baicells.manager.model.entity.SolutionLetPage;
 import com.baicells.manager.service.MediaNewsService;
@@ -55,8 +56,7 @@ public class MediaNewsServiceImpl implements MediaNewsService {
         String htmlName = "media_news_" + CommonUtil.getUUID(16);
         Map<String, Object> fltMap = new HashMap<>();
         fltMap.put("data", dto);
-        CreateHtmlUtils.createHtml(configProperties.getWebRoot(), "media_news_template.ftl", htmlName, fltMap);
-        String forwardUrl = configProperties.getNginxWebRoot() + htmlName + ".html";
+        String oldUrl = null;
 
         MediaNews mediaNews;
         if (dto.getId() > 0) {
@@ -64,11 +64,16 @@ public class MediaNewsServiceImpl implements MediaNewsService {
             if (mediaNews == null) {
                 mediaNews = new MediaNews();
                 mediaNews.setCreateTime(DateUtils.now());
+            } else {
+                oldUrl = mediaNews.getForwardUrl();
             }
         } else {
             mediaNews = new MediaNews();
             mediaNews.setCreateTime(DateUtils.now());
         }
+
+        CreateHtmlUtils.createHtml(configProperties.getWebRoot(), "media_news_template.ftl", htmlName, fltMap, oldUrl);
+        String forwardUrl = configProperties.getNginxWebRoot() + htmlName + ".html";
 
         mediaNews.setNavTitle(dto.getNavTitle());
         mediaNews.setNavPicUrl(dto.getNavPicUrl());
@@ -87,5 +92,16 @@ public class MediaNewsServiceImpl implements MediaNewsService {
     @Override
     public MediaNews getById(int id) {
         return mediaNewsDao.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public PageInfo<MediaNews> listByIndexAndSort(int first, int maxSize) {
+        PageHelper.startPage(first, maxSize);
+        Example example = new Example(MediaNews.class);
+        example.orderBy("createTime").desc();
+        List<MediaNews> productPages = mediaNewsDao.selectByExample(example);
+        PageInfo<MediaNews> pagePageInfo = new PageInfo<>(productPages, maxSize);
+
+        return pagePageInfo;
     }
 }

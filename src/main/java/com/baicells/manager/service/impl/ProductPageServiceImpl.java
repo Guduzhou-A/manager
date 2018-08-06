@@ -7,10 +7,7 @@ import com.baicells.manager.mapper.ProductPageDetailDao;
 import com.baicells.manager.mapper.ProductPageDetailMappingDao;
 import com.baicells.manager.model.dto.ProductDataDto;
 import com.baicells.manager.model.dto.ProductPageQuery4WebDto;
-import com.baicells.manager.model.entity.ProductPage;
-import com.baicells.manager.model.entity.ProductPageContent;
-import com.baicells.manager.model.entity.ProductPageDetail;
-import com.baicells.manager.model.entity.ProductPageDetailMapping;
+import com.baicells.manager.model.entity.*;
 import com.baicells.manager.service.ProductPageService;
 import com.baicells.manager.utils.CommonUtil;
 import com.baicells.manager.utils.CreateHtmlUtils;
@@ -81,9 +78,7 @@ public class ProductPageServiceImpl implements ProductPageService {
         String htmlName = "product_" + CommonUtil.getUUID(16);
         Map<String, Object> fltMap = new HashMap<>();
         fltMap.put("data", dto);
-        CreateHtmlUtils.createHtml(configProperties.getWebRoot(), "product_detail_template.ftl", htmlName, fltMap);
-
-        String forwardUrl = configProperties.getNginxWebRoot() + htmlName+".html";
+        String oldUrl = null;
 
         ProductPage productPage;
         if (dto.getId() > 0) {
@@ -93,6 +88,7 @@ public class ProductPageServiceImpl implements ProductPageService {
                 productPage.setEnable(false);
                 productPage.setCreateTime(DateUtils.now());
             } else {
+                oldUrl=productPage.getPortalForwardUrl();
                 productPage.setUpdateTime(DateUtils.now());
             }
         } else {
@@ -100,6 +96,14 @@ public class ProductPageServiceImpl implements ProductPageService {
             productPage.setEnable(false);
             productPage.setCreateTime(DateUtils.now());
         }
+
+        if (dto.isTwoContent()){
+            CreateHtmlUtils.createHtml(configProperties.getWebRoot(), "product_detail_double_template.ftl", htmlName, fltMap,oldUrl);
+        }else{
+            CreateHtmlUtils.createHtml(configProperties.getWebRoot(), "product_detail_template.ftl", htmlName, fltMap,oldUrl);
+        }
+
+        String forwardUrl = configProperties.getNginxWebRoot() + htmlName+".html";
 
         productPage.setTitle(dto.getTitle());
         productPage.setBgPicUrl(dto.getBgPicUrl());
@@ -187,5 +191,13 @@ public class ProductPageServiceImpl implements ProductPageService {
         }
 
 
+    }
+
+    @Override
+    public List<ProductPage> listByEnable() {
+        Example example = new Example(ProductPage.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("enable", true);
+        return productPageDao.selectByExample(example);
     }
 }

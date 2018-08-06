@@ -48,7 +48,7 @@
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="#">方案管理</a></li>
-        <li class="active">let-解决方案</li>
+        <li class="active">客户信息管理</li>
     </ol>
 
     <div class="search">

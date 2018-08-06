@@ -46,6 +46,7 @@ public class TransactionConfig {
             "batch*" ,
             "create*" ,
             "remove*" ,
+            "exec*",
     };
     /**
      * 默认的只读事务

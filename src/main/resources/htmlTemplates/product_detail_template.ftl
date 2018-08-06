@@ -149,10 +149,10 @@
                         <div class="cell-sm-4">
                             <div style="margin-top: 50px">
 
-                                <img style="max-width: 100%" src="${(product.url)!}" alt="">
+                                <img style="max-width: 204px;max-height: 330px" src="${(product.url)!}" alt="">
 
                             </div>
-                            <div style="margin-top: 66px" class="font-32">
+                            <div style="margin-top: 33px" class="font-32">
                                 ${(product.specifications)!}
                             </div>
                             <div style="width: 188px;height: 40px;background: #1d5881;color: #fff;text-align: center;line-height: 40px;border-radius: 4px;margin: 0 auto;margin-top:20px;">
@@ -171,7 +171,7 @@
                         <#elseif productGroup.products?size gt 2 >
                            <div class="box" style="width: 262px">
                                <div style="height: 285px;margin: 0 auto;display: flex;justify-content: center;align-items: center;">
-                                   <img style="max-width: 100%" src="${(product.url)!}" alt="">
+                                   <img style="max-width: 204px;max-height: 330px" src="${(product.url)!}" alt="">
                                </div>
                                <p style='font-size:24px;text-align: center;margin:20px 0 25px;'> ${(product.specifications)!}</p>
                                <a href="${(product.pdf)!}" style="font-size: 16px;display: block;margin: 0 auto;height: 38px;text-align: center;line-height: 38px;border-radius: 6px;background-color: #1d5881;color:#fff;" target="_blank">Specification Brochure</a>
@@ -179,7 +179,7 @@
                         <#else >
                           <div class="box" style="width: 580px;display: flex;align-items: center;">
                               <div style="width: 204px;height: 330px;margin: 0 auto;display: flex;justify-content: center;align-items: center;">
-                                  <img style="max-width: 100%" src="${(product.url)!}" alt="">
+                                  <img style="max-width: 204px;max-height: 330px" src="${(product.url)!}" alt="">
                               </div>
                               <div>
                                   <p style='font-size:24px;text-align: center;margin:20px 0 25px;'>${(product.specifications)!}</p>
@@ -203,211 +203,41 @@
     </main>
 
     <!-- Page Footer-->
-    <footer style="background:#333;"
-            class="offset-md-top-110 page-footer section-top-80 section-bottom-34 section-lg-bottom-15 text-sm-left">
+    <footer style="background:#333;" class="offset-md-top-110 page-footer section-top-80 section-bottom-34 section-lg-bottom-15 text-sm-left">
         <div class="shell">
             <div class="range range-xs-center">
                 <div class="cell-sm-8 cell-md-12">
-                    <div class="range range-xs-center">
-                        <div class="cell-sm-6 cell-md-2 cell-lg-2 cell-md-push-1"><a href="index.html"><img width="136"
-                                                                                                            height="65"
-                                                                                                            src="images/new-img/footer-img.jpg"
-                                                                                                            alt=""></a>
+                    <div class="range range-xs-center" id="footerDiv">
+                        <div class="cell-sm-6 cell-md-2 cell-lg-2 cell-md-push-1"><a href="index.html"><img width="136" height="65" src="images/new-img/footer-img.jpg" alt=""></a>
                             <div class="offset-top-20 inset-lg-right-58">
                                 <p class="text-small">
                                     <a href="http://www.baicells.com" target="_blank" style="color:#6a6a6a;">www.baicells.com</a>
                                 </p>
                                 <p class="text-small">
-                                    <a href="http://www.wisp.baicells.com" target="_blank" style="color:#6a6a6a;">www.wisp.baicells.com</a>
+                                    <a href="http://wisp.baicells.com" target="_blank" style="color:#6a6a6a;">wisp.baicells.com</a>
+                                </p>
+
+                            </div>
+                            <div class="offset-top-20 inset-lg-right-58">
+                                <p class="text-big text-gray-base" style="margin: 0 0 5px;color:#fff;">Contact us</p>
+                                <div>
+                                    <img src="images/new-img/bottom_03.jpg" alt="">
+                                </div>
+
+                                <p class="text-small">
+                                    <a href="mailto:connect@baicells.com" name="e-mail" target="_blank" style="color:#6a6a6a;">connect@baicells.com</a>
+                                </p>
+                                <p class="text-small">
+                                    <a href="mailto:sales_japan@baicells.com" name="e-mail" target="_blank" style="color:#6a6a6a;">sales_japan@baicells.com</a>
                                 </p>
 
                             </div>
                         </div>
-                        <div class="cell-sm-6 cell-md-2 cell-lg-2 offset-top-40 offset-md-top-0 cell-md-push-2">
-                            <p class="text-big text-gray-base" style="margin: 0 0 5px;color:#fff;">5G</p>
-                            <div>
-                                <img src="images/new-img/bottom_03.jpg" alt="">
-                            </div>
-                            <div class="offset-top-8 offset-sm-top-30">
-                                <!-- Contact Info-->
-                                <address class="contact-info text-left">
-                                    <div class="range range-xs-center">
-                                        <div class="cell-sm-12">
-                                            <!-- <div>
-                                              <p class="reveal-block text-small"><a href="#" class="text-gray"><span class="unit unit-horizontal unit-spacing-xs"><span class="unit-body"><span style="color:#6a6a6a;">5G</span></span></span></a></p>
-                                            </div> -->
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="virtualization.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Virtualization</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="modularization.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Modularization</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="fogging.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Fogging</span></span></span></a></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </address>
-                            </div>
-                        </div>
-                        <div class="cell-sm-6 cell-md-2 cell-lg-2 offset-top-40 offset-md-top-0 cell-md-push-3">
-                            <p class="text-big text-gray-base" style="margin: 0 0 5px;color:#fff;">LTE/LTE-A</p>
-                            <div>
-                                <img src="images/new-img/bottom_03.jpg" alt="">
-                            </div>
-                            <div class="offset-top-8 offset-sm-top-30">
-                                <!-- Contact Info-->
-                                <address class="contact-info text-left">
-                                    <div class="range range-xs-center">
-                                        <div class="cell-sm-12">
-                                            <div class="offset-top-10">
 
-                                                <p class="reveal-inline-block text-small"><a href="rural_coverage.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Rural Coverage</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a
-                                                        href="capacity_boosting.html" class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Capacity Boosting</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="fixed_wireless.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Fixed Wireless</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="crowd_cell.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span style="color:#6a6a6a;">CrowdCell</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="cbrs.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">CBRS</span></span></span></a></p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a
-                                                        href="skycell_drones_solution.html" class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Skycell Drone</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="site_power.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span style="color:#6a6a6a;">Site Power</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a
-                                                        href="professional_services.html" class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span style="color:#6a6a6a;">Professional Services</span></span></span></a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </address>
-                            </div>
-                        </div>
+                        <div class="cell-sm-6 cell-md-2 cell-lg-2 offset-top-40 offset-md-top-0 cell-md-push-2" name="footers"></div>
+                        <div class="cell-sm-6 cell-md-2 cell-lg-2 offset-top-40 offset-md-top-0 cell-md-push-3" name="footers"></div>
+                        <div class="cell-sm-6 cell-md-2 cell-lg-2 offset-top-40 offset-md-top-0 cell-md-push-4" name="footers">
 
-                        <div class="cell-sm-6 cell-md-2 cell-lg-2 offset-top-40 offset-md-top-0 cell-md-push-4">
-                            <p class="text-big text-gray-base" style="margin: 0 0 5px;color:#fff;">PRODUCTS</p>
-                            <div>
-                                <img src="images/new-img/bottom_03.jpg" alt="">
-                            </div>
-                            <div class="offset-top-8 offset-sm-top-30">
-                                <!-- Contact Info-->
-                                <address class="contact-info text-left">
-                                    <div class="range range-xs-center">
-                                        <div class="cell-sm-12">
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="outdoor_enodeb.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Outdoor eNodeB</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="indoor_eNodeB.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Indoor eNodeB</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="iot.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span style="color:#6a6a6a;">IoT</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="neutralcell.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Neutral Host</span></span></span></a></p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="cpe.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span style="color:#6a6a6a;">CPE</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="cloudcore.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Cloud Core EPC</span></span></span></a>
-                                                </p>
-                                            </div>
-                                            <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="cloudcore2.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Cloud Core OMC</span></span></span></a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </address>
-                            </div>
                         </div>
 
                         <div class="cell-sm-6 cell-md-2 cell-lg-2 offset-top-40 offset-md-top-0 cell-md-push-5">
@@ -421,19 +251,10 @@
                                     <div class="range range-xs-center">
                                         <div class="cell-sm-12">
                                             <div>
-                                                <p class="reveal-block text-small"><a href="about.html"
-                                                                                      class="text-gray"><span
-                                                        class="unit unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Customers Care</span></span></span></a>
-                                                </p>
+                                                <p class="reveal-block text-small"><a href="about.html" class="text-gray"><span class="unit unit-horizontal unit-spacing-xs"><span class="unit-body"><span style="color:#6a6a6a;">Customers Care</span></span></span></a></p>
                                             </div>
                                             <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="download.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Download</span></span></span></a></p>
+                                                <p class="reveal-inline-block text-small"><a href="download.html" class="text-gray"><span class="unit unit-middle unit-horizontal unit-spacing-xs"><span class="unit-body"><span style="color:#6a6a6a;">Download</span></span></span></a></p>
                                             </div>
                                         </div>
                                     </div>
@@ -452,27 +273,13 @@
                                     <div class="range range-xs-center">
                                         <div class="cell-sm-12">
                                             <div>
-                                                <p class="reveal-block text-small"><a href="about_us.html"
-                                                                                      class="text-gray"><span
-                                                        class="unit unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">About Baicells</span></span></span></a>
-                                                </p>
+                                                <p class="reveal-block text-small"><a href="about_us.html" class="text-gray"><span class="unit unit-horizontal unit-spacing-xs"><span class="unit-body"><span style="color:#6a6a6a;">About Baicells</span></span></span></a></p>
                                             </div>
                                             <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="partner_program.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Partner Program</span></span></span></a>
-                                                </p>
+                                                <p class="reveal-inline-block text-small"><a href="partner_program.html" class="text-gray"><span class="unit unit-middle unit-horizontal unit-spacing-xs"><span class="unit-body"><span style="color:#6a6a6a;">Partner Program</span></span></span></a></p>
                                             </div>
                                             <div class="offset-top-10">
-                                                <p class="reveal-inline-block text-small"><a href="career.html"
-                                                                                             class="text-gray"><span
-                                                        class="unit unit-middle unit-horizontal unit-spacing-xs"><span
-                                                        class="unit-body"><span
-                                                        style="color:#6a6a6a;">Career</span></span></span></a></p>
+                                                <p class="reveal-inline-block text-small"><a href="career.html" class="text-gray"><span class="unit unit-middle unit-horizontal unit-spacing-xs"><span class="unit-body"><span style="color:#6a6a6a;">Career</span></span></span></a></p>
                                             </div>
                                         </div>
                                     </div>
@@ -487,24 +294,14 @@
             </div>
             <div class="range range-xs-center range-sm-justify offset-top-40">
                 <div class="cell-sm-5 cell-md-4 text-sm-left">
-                    <p class="text-extra-small">Copyright &#169; <span id="copyright-year"></span>Baicells Technologies.
-                        All Rights Reserved.</p>
+                    <p class="text-extra-small">Copyright &#169; <span id="copyright-year"></span>Baicells Technologies. All Rights Reserved.</p>
                 </div>
                 <div class="cell-sm-5 cell-md-4 text-sm-right offset-top-0">
                     <!-- List Inline-->
                     <ul class="list-inline">
-                        <li class="text-center"><a href="#"
-                                                   style="border-radius: 15px;background: #585858;color: #4d4d4d;"
-                                                   class="icon icon-square icon-filled-gallery fa fa-linkedin text-gray"></a>
-                        </li>
-                        <li class="text-center"><a href="#"
-                                                   style="border-radius: 15px;background: #585858;color: #4d4d4d;"
-                                                   class="icon icon-square icon-filled-gallery fa fa-facebook-f text-gray"></a>
-                        </li>
-                        <li class="text-center"><a href="#"
-                                                   style="border-radius: 15px;background: #585858;color: #4d4d4d;"
-                                                   class="icon icon-square icon-filled-gallery fa fa-twitter text-gray"></a>
-                        </li>
+                        <li class="text-center"><a href="#" style="border-radius: 15px;background: #585858;color: #4d4d4d;" class="icon icon-square icon-filled-gallery fa fa-linkedin text-gray"></a></li>
+                        <li class="text-center"><a href="#" style="border-radius: 15px;background: #585858;color: #4d4d4d;" class="icon icon-square icon-filled-gallery fa fa-facebook-f text-gray"></a></li>
+                        <li class="text-center"><a href="#" style="border-radius: 15px;background: #585858;color: #4d4d4d;" class="icon icon-square icon-filled-gallery fa fa-twitter text-gray"></a></li>
                     </ul>
                 </div>
             </div>
@@ -548,6 +345,8 @@
     </div>
 </div>
 <!-- Java script-->
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/config.js"></script>
 <script src="js/core.min.js"></script>
 <script src="js/script.js"></script>
 </body>

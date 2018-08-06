@@ -209,6 +209,7 @@ $(function () {
     }
 
     function builEditorModel(data) {
+        clearData();
         console.log(data);
         $("#title").attr("data-id", data.id);
         $("#title").val(data.title);
@@ -238,7 +239,7 @@ $(function () {
                         groupHtml += "<td data-id='" + p[j].id + "'>" +
                             "<div class='col-sm-5'>" +
                             "<div>" +
-                            "<img style='width:100%' src='" + p[j].url + "' id='" + imgTag + "' class='img-rounded '/>" +
+                            "<img style='max-width: 204px;max-height: 330px' src='" + p[j].url + "' id='" + imgTag + "' class='img-rounded '/>" +
                             "</div>" +
                             "<div>" +
                             "<input type='text' class='form-control'   name='' style='width: 100%;margin-top:1%;margin-bottom: 1%' placeholder='规格' value='" + p[j].specifications + "'>" +
@@ -346,12 +347,17 @@ $(function () {
         });
         //content
         var contents = data.contents;
-        if (data.isTwoContent) {
+        if (data.twoContent) {
+            $("#choose_ul li:eq(0)").removeClass("active");
+            $("#choose_ul li:eq(1)").addClass("active");
+            $("#choose-one").removeClass("active");
+            $("#choose-two").addClass("active");
+            $("#choose-two").addClass("in");
             if (contents && contents.length > 0) {
                 $("#content-editor-1").attr("data-id", contents[0].id);
                 $("#content-editor-2").attr("data-id", contents[1].id);
                 $("#editor-title-1").val(contents[0].title);
-                $("#editor-title-1").val(contents[1].title);
+                $("#editor-title-2").val(contents[1].title);
                 contentEditor1.txt.html(contents[0].content)
                 contentEditor2.txt.html(contents[1].content)
             }
@@ -372,6 +378,7 @@ $(function () {
     }
 
     function clearData() {
+        $("#title").attr("data-id","-1");
         $("#title").val("");
         $("#portalPicUrl").attr("src", "");
         $("#navPicUrl").attr("src", "");
@@ -383,8 +390,14 @@ $(function () {
         $("#editor-title-1").val("");
         $("#editor-title-2").val("");
         editors = [];
-        $("#choose_ul li:first a").click();
-
+        $("#choose_ul li:eq(0)").addClass("active");
+        $("#choose_ul li:eq(1)").removeClass("active");
+        $("#choose-one").addClass("active");
+        $("#choose-one").addClass("in");
+        $("#choose-two").removeClass("active");
+        $("#content-editor").attr("data-id","-1");
+        $("#content-editor-1").attr("data-id","-1");
+        $("#content-editor-2").attr("data-id","-1");
 
     }
 
@@ -413,7 +426,7 @@ $(function () {
         var _html = "<td>" +
             "<div class='col-sm-5'>" +
             "<div>" +
-            "<img style='width:100%' src='' id='" + imgTag + "' class='img-rounded '/>" +
+            "<img style='max-width: 204px;max-height: 330px' src='' id='" + imgTag + "' class='img-rounded '/>" +
             "</div>" +
             "<div>" +
             "<input type='text' class='form-control'   name='' style='width: 100%;margin-top:1%;margin-bottom: 1%' placeholder='规格' value=''>" +

@@ -240,7 +240,7 @@ $(function () {
         $("#middle-pic-3").attr("src", "");
         $("#middle-title-1").val("");
         $("#middle-title-2").val("");
-        $("#middle-title-1").val("");
+        $("#middle-title-3").val("");
         contentTopEditor.txt.clear();
         contentBottomEditor.txt.clear();
 

@@ -122,11 +122,11 @@
             <artifactId>commons-collections4</artifactId>
             <version>4.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-parent</artifactId>
-            <version>28</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-parent</artifactId>-->
+            <!--<version>28</version>-->
+        <!--</dependency>-->
 
 
         <dependency>
@@ -256,6 +256,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.baicells.manager.ManagerApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -83,4 +83,14 @@ public class MediaCustomerServiceImpl implements MediaCustomerService {
     public MediaCustomer getById(int id) {
         return mediaCustomerDao.selectByPrimaryKey(id);
     }
+
+    @Override
+    public PageInfo<MediaCustomer> listByIndexAndSort(int first, int maxSize) {
+        PageHelper.startPage(first, maxSize);
+        Example example = new Example(MediaCustomer.class);
+        example.orderBy("createTime").desc();
+        List<MediaCustomer> productPages = mediaCustomerDao.selectByExample(example);
+        PageInfo<MediaCustomer> pagePageInfo = new PageInfo<>(productPages, maxSize);
+        return pagePageInfo;
+    }
 }

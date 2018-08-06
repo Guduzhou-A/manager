@@ -2,6 +2,7 @@ package com.baicells.manager.utils;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.util.Map;
@@ -9,7 +10,15 @@ import java.util.Map;
 public class CreateHtmlUtils {
 
 
-    public static void createHtml(String path, String templateName, String targetFileName, Object object) throws Exception {
+    public static void createHtml(String path, String templateName, String targetFileName, Object object,String oldUrl) throws Exception {
+        if (StringUtils.isNotBlank(oldUrl)){
+            String oldPath = path+"/"+oldUrl.substring(oldUrl.lastIndexOf("/")+1,oldUrl.length());
+
+            File oldFile = new File(oldPath);
+            if (oldFile.exists()){
+                oldFile.delete();
+            }
+        }
         //创建fm的配置
         Configuration config = new Configuration();
         //指定默认编码格式

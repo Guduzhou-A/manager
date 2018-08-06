@@ -48,7 +48,7 @@
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="#">方案管理</a></li>
-        <li class="active">let-解决方案</li>
+        <li class="active">lte-解决方案</li>
     </ol>
 
     <div class="search">
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="title" class="col-sm-2 control-label">首页轮播图片<font class="red">*</font>：</label>
+                        <label for="title" class="col-sm-2 control-label">首页轮播图片  - *为空首页则不存在导航<font class="red">*</font>：</label>
                         <div class="col-sm-10">
                             <img style='width: 100px;height: 100px' src='' id="portalPicUrl" data-src=""
                                  onerror="this.src='${(base)}/static/web/images/noimage.png'" class='img-rounded '/>

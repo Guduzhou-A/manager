@@ -168,6 +168,7 @@ public class SolutionController {
             dto.setNavPicUrl(solutionLetPage.getNavPicUrl());
             dto.setTitle(solutionLetPage.getTitle());
             dto.setContent(solutionLetPage.getContent());
+            dto.setPortalPicUrl(solutionLetPage.getPortalPicUrl());
             result.setData(dto);
         }
 

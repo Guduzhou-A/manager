@@ -182,4 +182,107 @@ td {
     vertical-align: middle !important;
 
 }
+.theme-popover-mask {
+    z-index: 9998;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#000;
+    opacity:0.4;
+    filter:alpha(opacity=40);
+    display:none
+}
+.theme-popover {
+    z-index:9999;
+    position:fixed;
+    top:50%;
+    left:50%;
+    width:660px;
+    height:360px;
+    margin:-180px 0 0 -330px;
+    border-radius:5px;
+    border:solid 2px #666;
+    background-color:#fff;
+    display:none;
+    box-shadow: 0 0 10px #666;
+}
+.theme-popover ol, ul, menu{
+    list-style:none
+}
+.theme-popover a {
+    color:#0088DB;
+    text-decoration:none;
+    cursor:pointer
+}
+.theme-popover a:hover {
+    color:#2A5E8E
+}
+/* input */
+.ipt  {
+    border: solid 1px #d2d2d2 !important;
+    border-left-color: #ccc !important;
+    border-top-color: #ccc  !important;
+    border-radius: 2px !important;
+    box-shadow: inset 0 1px 0 #f8f8f8 !important;
+    background-color: #fff !important;
+    padding: 4px 6px !important;
+    height: 21px !important;
+    line-height: 21px !important;
+    color: #555 !important;
+    width: 180px !important;
+    vertical-align: baseline !important;
+}
+.ipt-mini {
+    width: 140px;
+    padding: 1px 3px;
+}
+.ipt:focus {
+    border-color: #95C8F1;
+    box-shadow: 0 0 4px #95C8F1;
+}
+.theme-signin li strong {
+    margin-left: -80px;
+    width: 80px;
+    text-align: right;
+    line-height: 32px;
+}
+
+.theme-poptit {
+    border-bottom:1px solid #ddd;
+    padding:12px;
+    position: relative;
+}
+.theme-popbod {
+    padding:60px 15px;
+    color:#444;
+    height: 148px;
+}
+.theme-popbom {
+    padding:15px;
+    background-color:#f6f6f6;
+    border-top:1px solid #ddd;
+    border-radius:0 0 5px 5px;
+    color:#666
+}
+.theme-popbom a {
+    margin-left:8px
+}
+.theme-poptit .close {
+    float:right;
+    color:black;
+    padding:5px;
+    margin:-2px -5px -5px;
+    font:bold 14px/14px simsun;
+    text-shadow:0 1px 0 #ddd
+}
+.theme-poptit .close:hover {
+    color:black;
+}
+.dform {
+    padding:80px 60px 40px;
+    text-align: center;
+}
+
 

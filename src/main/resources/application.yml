@@ -4,6 +4,7 @@ server:
     uri-encoding: UTF-8
   servlet:
     context-path: /baicells
+  port:
 spring:
   #application_name
   application:
@@ -15,7 +16,7 @@ spring:
         maxRequestSize: 100Mb
   #datasource
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/baicells
+    url: jdbc:mysql://127.0.0.1:3306/baicells_bak
     username: root
     password: admin
     type: com.alibaba.druid.pool.DruidDataSource
@@ -33,9 +34,9 @@ spring:
           log-slow-sql: true
           slow-sql-millis: 2000
           enabled: true
-      stat-view-servlet:
-        login-username: admin
-        login-password: 123456
+#      stat-view-servlet:
+#        login-username: admin
+#        login-password: 123456
       web-stat-filter:
         enabled: true
         url-pattern: /*
@@ -57,7 +58,6 @@ spring:
       template_update_delay: 0
 
 
-
 #mybatis
 mybatis:
   type-aliases-package: com.baicells.*.entity
@@ -73,10 +73,7 @@ transaction:
 
 #mapper
 #mapper:
-#  mappers:
-#    -tk.mybatis.mapper.common.base.BaseMapper
-#  notEmpty: true
-#  identity: MYSQL
+#  m
 
 #pagehelper
 pagehelper:
@@ -87,8 +84,8 @@ pagehelper:
 
 
 #log
-#logging:
-#  config: classpath:logback-spring.xml
+logging:
+  config: classpath:logback-spring.xml
 
 
 #project_web web信息设置

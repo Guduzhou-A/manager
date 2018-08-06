@@ -66,4 +66,23 @@ public class FileUtil {
             }
         }
     }
+
+    public static void main(String[] args) throws IOException {
+//        FileInputStream fis=new FileInputStream("C:\\Users\\hasee\\Desktop\\lang");
+//        InputStreamReader isr=new InputStreamReader(fis, "UTF-8");
+//        BufferedReader br = new BufferedReader(isr);
+//        //简写如下
+//        //BufferedReader br = new BufferedReader(new InputStreamReader(
+//        //        new FileInputStream("E:/phsftp/evdokey/evdokey_201103221556.txt"), "UTF-8"));
+//        String line="";
+//        String[] arrs=null;
+//        while ((line=br.readLine())!=null) {
+////            System.out.println(line);
+//            arrs=line.split(",");
+//            System.out.println("map.put(\""+arrs[0] + "\",\""+arrs[1]+"\"); ");
+//        }
+//        br.close();
+//        isr.close();
+//        fis.close();
+    }
 }

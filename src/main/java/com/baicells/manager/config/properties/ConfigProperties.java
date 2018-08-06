@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource(value = {ConfigConstant.CLASSPATH_CONFIG_PATH, ConfigConstant.FILE_CONFIG_PATH, ConfigConstant.LOCATION_CONFIG_PATH}, encoding = GlobalConstant.ENCODEING, ignoreResourceNotFound = true)
+@PropertySource(value = {ConfigConstant.CLASSPATH_CONFIG_PATH, ConfigConstant.FILE_CONFIG_PATH, ConfigConstant.FILE_CONFIG_PATH_SECOND,ConfigConstant.LOCATION_CONFIG_PATH}, encoding = GlobalConstant.ENCODEING, ignoreResourceNotFound = true)
 @ConfigurationProperties
 public class ConfigProperties {
     private String uploadUrl;

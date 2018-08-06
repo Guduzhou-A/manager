@@ -2,14 +2,8 @@ package com.baicells.manager.web.controller;
 
 
 import com.baicells.manager.model.dto.*;
-import com.baicells.manager.model.entity.MediaCustomer;
-import com.baicells.manager.model.entity.MediaNews;
-import com.baicells.manager.model.entity.Solution5gPage;
-import com.baicells.manager.model.entity.SolutionLetPage;
-import com.baicells.manager.service.MediaCustomerService;
-import com.baicells.manager.service.MediaNewsService;
-import com.baicells.manager.service.Solution5gService;
-import com.baicells.manager.service.SolutionLETService;
+import com.baicells.manager.model.entity.*;
+import com.baicells.manager.service.*;
 import com.baicells.manager.utils.*;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -38,6 +32,8 @@ public class MediaController {
     private MediaNewsService mediaNewsServiceImpl;
     @Autowired
     private MediaCustomerService mediaCustomerServiceImpl;
+    @Autowired
+    private MediaBrandService mediaBrandServiceImpl;
 
 
     @RequestMapping("/news")
@@ -178,6 +174,59 @@ public class MediaController {
 
         return result;
     }
+
+
+
+    @RequestMapping("/brand")
+    public String brandIndex(HttpServletRequest request) {
+        return "site.baicells.media.brand";
+    }
+
+    @RequestMapping("/brand/ajax")
+    @ResponseBody
+    public Result brandAjax(String data) {
+        Result result = new Result();
+        result.setCode(ResultCode.SUCCESS);
+        MediaQuery4WebDto dto = ConvertQuery4WebData.convertMediaQuery(data);
+        PageInfo<MediaBrand> mediaBrandPageInfo = mediaBrandServiceImpl.listByQuery(dto);
+        DataTablesMap dataTablesMap = new DataTablesMap();
+        dataTablesMap.setData(mediaBrandPageInfo.getList());
+        dataTablesMap.setiTotalRecords(mediaBrandPageInfo.getPageNum());
+        dataTablesMap.setiTotalDisplayRecords(mediaBrandPageInfo.getTotal());
+        result.setData(dataTablesMap);
+        return result;
+    }
+
+
+    @RequestMapping("/brand/add")
+    @ResponseBody
+    public Result brandAdd(@RequestBody MediaBrandDataDto dto) {
+        Result result = new Result();
+        result.setCode(ResultCode.SUCCESS);
+        logger.info(FastJsonUtil.toJSONString(dto));
+        try {
+            mediaBrandServiceImpl.addByDto(dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode(ResultCode.INTERNAL_SERVER_ERROR);
+        }
+
+
+        return result;
+    }
+
+
+
+    @RequestMapping("/brand/delete/{id}")
+    @ResponseBody
+    public Result brandDelete(@PathVariable(name = "id") int id) {
+        Result result = new Result();
+        result.setCode(ResultCode.SUCCESS);
+        mediaBrandServiceImpl.delete(id);
+
+        return result;
+    }
+
 
 
 }

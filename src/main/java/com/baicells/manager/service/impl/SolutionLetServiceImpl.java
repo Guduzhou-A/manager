@@ -57,9 +57,7 @@ public class SolutionLetServiceImpl implements SolutionLETService {
         String htmlName = "solution_let_" + CommonUtil.getUUID(16);
         Map<String, Object> fltMap = new HashMap<>();
         fltMap.put("data", dto);
-        CreateHtmlUtils.createHtml(configProperties.getWebRoot(), "solution_let_template.ftl", htmlName, fltMap);
-        String forwardUrl = configProperties.getNginxWebRoot() + htmlName + ".html";
-
+        String oldUrl = null;
         SolutionLetPage solutionLetPage;
         if (dto.getId() != null && dto.getId() > 0) {
             solutionLetPage = solutionLetPageDao.selectByPrimaryKey(dto.getId());
@@ -68,6 +66,7 @@ public class SolutionLetServiceImpl implements SolutionLETService {
                 solutionLetPage.setEnable(false);
                 solutionLetPage.setCreateTime(DateUtils.now());
             } else {
+                oldUrl = solutionLetPage.getPortalForwardUrl();
                 solutionLetPage.setUpdateTime(DateUtils.now());
             }
         } else {
@@ -75,11 +74,17 @@ public class SolutionLetServiceImpl implements SolutionLETService {
             solutionLetPage.setEnable(false);
             solutionLetPage.setCreateTime(DateUtils.now());
         }
+
+        CreateHtmlUtils.createHtml(configProperties.getWebRoot(), "solution_let_template.ftl", htmlName, fltMap,oldUrl);
+        String forwardUrl = configProperties.getNginxWebRoot() + htmlName + ".html";
+
+
         solutionLetPage.setTitle(dto.getTitle());
         solutionLetPage.setBgPicUrl(dto.getBgPicUrl());
         solutionLetPage.setPortalForwardUrl(forwardUrl);
         solutionLetPage.setPortalPicUrl(dto.getPortalPicUrl());
         solutionLetPage.setNavPicUrl(dto.getNavPicUrl());
+        solutionLetPage.setContent(dto.getContent());
 
         if (solutionLetPage.getId() != null && solutionLetPage.getId() > 0) {
             solutionLetPageDao.updateByPrimaryKey(solutionLetPage);
@@ -98,5 +103,13 @@ public class SolutionLetServiceImpl implements SolutionLETService {
     @Override
     public void updateById(SolutionLetPage solutionLetPage) {
         solutionLetPageDao.updateByPrimaryKey(solutionLetPage);
+    }
+
+    @Override
+    public List<SolutionLetPage> listByEnable() {
+        Example example = new Example(SolutionLetPage.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("enable", true);
+        return solutionLetPageDao.selectByExample(example);
     }
 }

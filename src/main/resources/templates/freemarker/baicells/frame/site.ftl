@@ -16,6 +16,7 @@
     <script src="${ (project.staticDomain)! }/libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script src="${ (project.staticDomain)! }/js/common.js"></script>
     <script src="${ (project.staticDomain)! }/libs/wangEditor/wangEditor.min.js"></script>
+    <script src="${ (project.staticDomain)! }/js/header.js"></script>
 </head>
 
 <body>

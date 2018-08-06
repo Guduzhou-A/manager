@@ -5,6 +5,8 @@ import com.baicells.manager.model.dto.SolutionQuery4WebDto;
 import com.baicells.manager.model.entity.Solution5gPage;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 public interface Solution5gService {
     PageInfo<Solution5gPage> listByQuery(SolutionQuery4WebDto dto);
 
@@ -15,4 +17,8 @@ public interface Solution5gService {
     void updateById(Solution5gPage solution5gPage);
 
     Solution5gPage getById(int id);
+
+    List<Solution5gPage> listAll();
+
+    List<Solution5gPage> listByEnable();
 }

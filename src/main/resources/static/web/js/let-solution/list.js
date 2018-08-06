@@ -283,6 +283,9 @@ $(function () {
         var navPicUrl = $("#navPicUrl").attr("src");
         var bgPicUrl = $("#bgPicUrl").attr("src");
         var portalPicUrl = $("#portalPicUrl").attr("src");
+        if (portalPicUrl.indexOf("/static/web/images/noimage.png") !=-1){
+            portalPicUrl = "";
+        }
         var content = contentEditor.txt.html();
 
         var data = {
@@ -293,6 +296,7 @@ $(function () {
             "bgPicUrl": bgPicUrl,
             "content": content
         };
+
 
         $.ajax({
             url: base + '/solution/let/addOrUpdate',

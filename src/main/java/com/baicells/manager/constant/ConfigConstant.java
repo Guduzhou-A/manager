@@ -17,6 +17,7 @@ public class ConfigConstant {
     //按照优先级逐级
     public static final String CLASSPATH_CONFIG_PATH = "classpath:config.yml";
     public static final String FILE_CONFIG_PATH = "file:./config.yml";
+    public static final String FILE_CONFIG_PATH_SECOND = "file:./config/config.yml";
     public static final String LOCATION_CONFIG_PATH = "file:${config-location.baicells}";
 
 

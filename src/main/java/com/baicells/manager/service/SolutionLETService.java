@@ -5,6 +5,8 @@ import com.baicells.manager.model.dto.SolutionQuery4WebDto;
 import com.baicells.manager.model.entity.SolutionLetPage;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 public interface SolutionLETService {
     PageInfo<SolutionLetPage> listByQuery(SolutionQuery4WebDto dto);
 
@@ -15,4 +17,6 @@ public interface SolutionLETService {
     void delete(int id);
 
     void updateById(SolutionLetPage solutionLetPage);
+
+    List<SolutionLetPage> listByEnable();
 }

@@ -6,6 +6,7 @@ import com.baicells.manager.model.dto.Solution5gDataDto;
 import com.baicells.manager.model.dto.SolutionQuery4WebDto;
 import com.baicells.manager.model.entity.ProductPage;
 import com.baicells.manager.model.entity.Solution5gPage;
+import com.baicells.manager.model.entity.SolutionLetPage;
 import com.baicells.manager.service.Solution5gService;
 import com.baicells.manager.utils.CommonUtil;
 import com.baicells.manager.utils.CreateHtmlUtils;
@@ -53,8 +54,7 @@ public class Solution5gServiceImpl implements Solution5gService {
         String htmlName = "solution_5g_" + CommonUtil.getUUID(16);
         Map<String, Object> fltMap = new HashMap<>();
         fltMap.put("data", dto);
-        CreateHtmlUtils.createHtml(configProperties.getWebRoot(), "solution_5g_template.ftl", htmlName, fltMap);
-        String forwardUrl = configProperties.getNginxWebRoot() + htmlName + ".html";
+        String oldUrl = null;
 
         Solution5gPage solution5gPage;
         if (dto.getId() != null && dto.getId() > 0) {
@@ -64,6 +64,7 @@ public class Solution5gServiceImpl implements Solution5gService {
                 solution5gPage.setEnable(false);
                 solution5gPage.setCreateTime(DateUtils.now());
             } else {
+                oldUrl=solution5gPage.getPortalForwardUrl();
                 solution5gPage.setUpdateTime(DateUtils.now());
             }
         } else {
@@ -71,6 +72,10 @@ public class Solution5gServiceImpl implements Solution5gService {
             solution5gPage.setEnable(false);
             solution5gPage.setCreateTime(DateUtils.now());
         }
+        CreateHtmlUtils.createHtml(configProperties.getWebRoot(), "solution_5g_template.ftl", htmlName, fltMap,oldUrl);
+        String forwardUrl = configProperties.getNginxWebRoot() + htmlName + ".html";
+
+
         solution5gPage.setTitle(dto.getTitle());
         solution5gPage.setBgPicUrl(dto.getBgPicUrl());
         solution5gPage.setContentDesc(dto.getContentDesc());
@@ -109,5 +114,18 @@ public class Solution5gServiceImpl implements Solution5gService {
     @Override
     public Solution5gPage getById(int id) {
         return solution5gPageDao.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<Solution5gPage> listAll() {
+        return solution5gPageDao.selectAll();
+    }
+
+    @Override
+    public List<Solution5gPage> listByEnable() {
+        Example example = new Example(Solution5gPage.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("enable", true);
+        return solution5gPageDao.selectByExample(example);
     }
 }

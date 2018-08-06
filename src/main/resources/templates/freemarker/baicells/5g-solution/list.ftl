@@ -93,8 +93,8 @@
                 </th>
                 <th>标题</th>
                 <th>导航页封面</th>
-                <th>导航页描述</th>
-                <th>详情页描述</th>
+                <th width="25%">导航页描述</th>
+                <th width="25%">详情页描述</th>
                 <th>详情页背景图片</th>
                 <th>创建时间</th>
                 <th>状态</th>
@@ -180,7 +180,7 @@
                                     <tr>
                                         <td width="33%">
                                             <div>
-                                                <img style='width:100%' src='' id="middle-pic-1"
+                                                <img style='max-width: 80px;max-height: 80px' src='' id="middle-pic-1"
                                                      class='img-rounded '
                                                      onerror="this.src='${(base)}/static/web/images/noimage.png'"/>
                                             </div>
@@ -194,7 +194,7 @@
                                         </td>
                                         <td width="33%">
                                             <div>
-                                                <img style='width:100%' src='' id="middle-pic-2"
+                                                <img style='max-width: 80px;max-height: 80px' src='' id="middle-pic-2"
                                                      class='img-rounded '
                                                      onerror="this.src='${(base)}/static/web/images/noimage.png'"/>
                                             </div>
@@ -208,7 +208,7 @@
                                         </td>
                                         <td width="33%">
                                             <div>
-                                                <img style='width:100%' src='' id="middle-pic-3"
+                                                <img style='max-width: 80px;max-height: 80px' src='' id="middle-pic-3"
                                                      class='img-rounded '
                                                      onerror="this.src='${(base)}/static/web/images/noimage.png'"/>
                                             </div>
